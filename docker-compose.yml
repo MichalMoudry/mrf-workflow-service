@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: recognition-services
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8080:8443"
+    environment:
+      - CONNECTION_STRING="postgres://root:root@localhost:5432/recognition-serv-db?sslmode=disable"
+
+  db:
+    image: postgres:15
+    container_name: recognition-serv-db
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=recognition-serv-db
+      - PGUSER=root
+    ports:
+      - "5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "recognition-serv-db"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    image: migrate/migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./database/migrations:/migrations
+    command:
+      [ "-path", "/migrations", "-database", "postgres://root:root@db:5432/recognition-serv-db?sslmode=disable", "up"]
+
+volumes:
+  pgdata:

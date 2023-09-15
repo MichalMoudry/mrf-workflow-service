@@ -10,7 +10,7 @@ import (
 
 func main() {
 	fmt.Println("Hello from workflow service!")
-	cfg, err := config.ReadCfgFromFile("../config.json")
+	cfg, err := config.ReadCfgFromFile("config.json")
 	if err != nil {
 		log.Fatal(err)
 	}

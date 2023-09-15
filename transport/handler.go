@@ -21,11 +21,11 @@ func Initalize(port int) *Handler {
 	handler.Mux.Use(middleware.Logger)
 
 	// Public routes
-	handler.Mux.Get("/healthz", health)
+	handler.Mux.Get("/health", health)
 	return handler
 }
 
-// Controller endpoint function for handling requests on /healthz.
+// Controller endpoint function for handling requests on /health.
 func health(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(http.StatusNoContent)
 }

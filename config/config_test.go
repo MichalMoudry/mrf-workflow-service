@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	configPath = "../config.json"
+	configPath = "../cmd/config.json"
 )
 
 func Test_ReadConfigFromFile(t *testing.T) {

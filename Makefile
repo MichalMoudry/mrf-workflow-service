@@ -3,3 +3,6 @@ create_local_db:
 
 migrate_local_db:
 	migrate -path "./database/migrations" -database "postgres://root:root@localhost:5432/recognition-serv-db?sslmode=disable" up
+
+compose:
+	docker compose up -d
