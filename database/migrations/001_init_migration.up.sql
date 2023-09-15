@@ -16,7 +16,11 @@ CREATE TABLE workflows (
     setting_skip_enhancement BOOLEAN NOT NULL,
     setting_expect_diff_images BOOLEAN NOT NULL,
     date_added TIMESTAMP NOT NULL,
-    date_updated TIMESTAMP NOT NULL
+    date_updated TIMESTAMP NOT NULL,
+    CONSTRAINT fk_application
+        FOREIGN KEY(application_id)
+            REFERENCES applications(id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE document_templates (
@@ -27,7 +31,11 @@ CREATE TABLE document_templates (
     image BYTEA NOT NULL,
     workflow_id UUID NOT NULL,
     date_added TIMESTAMP NOT NULL,
-    date_updated TIMESTAMP NOT NULL
+    date_updated TIMESTAMP NOT NULL,
+    CONSTRAINT fk_workflow
+        FOREIGN KEY(workflow_id)
+            REFERENCES workflows(id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE template_fields (
@@ -39,15 +47,24 @@ CREATE TABLE template_fields (
     y_position REAL NOT NULL,
     expected_value VARCHAR(255),
     is_identifying BOOLEAN NOT NULL,
+    template_id UUID NOT NULL,
     date_added TIMESTAMP NOT NULL,
-    date_updated TIMESTAMP NOT NULL
+    date_updated TIMESTAMP NOT NULL,
+    CONSTRAINT fk_template
+        FOREIGN KEY(template_id)
+            REFERENCES document_templates(id)
+            ON DELETE CASCADE
 );
 
 CREATE TABLE application_users (
     id UUID PRIMARY KEY,
     application_id UUID NOT NULL,
     user_id VARCHAR(150) NOT NULL,
-    role VARCHAR(50) NOT NULL
+    role VARCHAR(50) NOT NULL,
+    CONSTRAINT fk_application
+        FOREIGN KEY(application_id)
+            REFERENCES applications(id)
+            ON DELETE CASCADE
 );
 
 COMMIT;
