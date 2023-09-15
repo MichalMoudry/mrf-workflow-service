@@ -9,7 +9,7 @@ import (
 // A structure representing a recognition application.
 type Application struct {
 	Id          uuid.UUID `db:"id"`
-	Name        string    `db:"name"`
+	Name        string    `db:"app_name"`
 	CreatorId   string    `db:"creator_id"`
 	DateAdded   time.Time `db:"date_added"`
 	DateUpdated time.Time `db:"date_updated"`
@@ -40,7 +40,7 @@ type ApplicationUsers struct {
 // A structure representing a recognition workflow/process.
 type Workflow struct {
 	Id            uuid.UUID `db:"id"`
-	Name          string    `db:"name"`
+	Name          string    `db:"workflow_name"`
 	ApplicationId uuid.UUID `db:"application_id"`
 	Templates     []DocumentTemplate
 	Settings      WorkflowSetting
@@ -70,7 +70,7 @@ type WorkflowSetting struct {
 // A structure representing a template of a processed document.
 type DocumentTemplate struct {
 	Id          uuid.UUID `db:"id"`
-	Name        string    `db:"name"`
+	Name        string    `db:"template_name"`
 	Width       float32   `db:"width"`
 	Height      float32   `db:"height"`
 	Image       []byte    `db:"image"`
@@ -95,7 +95,7 @@ func NewDocumentTemplate(name string, width, height float32) *DocumentTemplate {
 // A structure representing a field associated with a specific document template.
 type TemplateField struct {
 	Id            uuid.UUID `db:"id"`
-	Name          string    `db:"name"`
+	Name          string    `db:"field_name"`
 	Width         float32   `db:"width"`
 	Height        float32   `db:"height"`
 	XPosition     float32   `db:"x_position"`

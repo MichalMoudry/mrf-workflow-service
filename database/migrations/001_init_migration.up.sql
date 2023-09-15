@@ -2,7 +2,7 @@ BEGIN;
 
 CREATE TABLE applications (
     id UUID PRIMARY KEY,
-    name VARCHAR(200) NOT NULL,
+    app_name VARCHAR(200) NOT NULL,
     creator_id VARCHAR(150) NOT NULL,
     date_added TIMESTAMP NOT NULL,
     date_updated TIMESTAMP NOT NULL
@@ -10,7 +10,7 @@ CREATE TABLE applications (
 
 CREATE TABLE workflows (
     id UUID PRIMARY KEY,
-    name VARCHAR(200) NOT NULL,
+    workflow_name VARCHAR(200) NOT NULL,
     application_id UUID NOT NULL,
     setting_is_full_page_recog BOOLEAN NOT NULL,
     setting_skip_enhancement BOOLEAN NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE workflows (
 
 CREATE TABLE document_templates (
     id UUID PRIMARY KEY,
-    name VARCHAR(200) NOT NULL,
+    template_name VARCHAR(200) NOT NULL,
     width REAL NOT NULL,
     height REAL NOT NULL,
     image BYTEA NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE document_templates (
 
 CREATE TABLE template_fields (
     id UUID PRIMARY KEY,
-    name VARCHAR(200) NOT NULL,
+    field_name VARCHAR(200) NOT NULL,
     width REAL NOT NULL,
     height REAL NOT NULL,
     x_position REAL NOT NULL,
