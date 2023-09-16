@@ -46,3 +46,39 @@ func (handler *Handler) GetAppInfo(w http.ResponseWriter, r *http.Request) {
 	}
 	util.WriteResponse(w, http.StatusOK, appInfo)
 }
+
+// Method for handling request for deleting a specific app.
+func (handler *Handler) DeleteApp(w http.ResponseWriter, r *http.Request) {
+	appId, err := util.GetUuidFromUrl(r)
+	if err != nil {
+		util.WriteErrResponse(w, http.StatusBadRequest, err)
+		return
+	}
+	if err = handler.Services.AppService.DeleteApp(r.Context(), appId); err != nil {
+		util.WriteErrResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	util.WriteResponse(w, http.StatusOK, "App was deleted")
+}
+
+// Method for handling request for updating data of a specific app.
+func (handler *Handler) UpdateApp(w http.ResponseWriter, r *http.Request) {
+	appId, err := util.GetUuidFromUrl(r)
+	if err != nil {
+		util.WriteErrResponse(w, http.StatusBadRequest, err)
+		return
+	}
+	var requestData contracts.UpdateAppRequest
+	if err = util.UnmarshallRequest(r, &requestData); err != nil {
+		util.WriteErrResponse(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if err = handler.Services.AppService.UpdateApp(r.Context(), appId, requestData.Name); err != nil {
+		util.WriteErrResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	util.WriteResponse(w, http.StatusOK, "App was successfully updated.")
+}

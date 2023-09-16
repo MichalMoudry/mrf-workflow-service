@@ -29,6 +29,8 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 			r.Post("/", handler.CreateApp)
 			r.Route("/{appid}", func(r chi.Router) {
 				r.Get("/", handler.GetAppInfo)
+				r.Delete("/", handler.DeleteApp)
+				r.Patch("/", handler.UpdateApp)
 			})
 		})
 

@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"time"
 	"workflow-service/database"
 	"workflow-service/database/model"
 	"workflow-service/database/query"
@@ -60,13 +61,13 @@ func (ApplicationRepository) DeleteApplication(appId uuid.UUID) error {
 }
 
 // Method for updating app's name.
-func (ApplicationRepository) UpdateApplication(appId uuid.UUID, appName string) error {
+func (ApplicationRepository) UpdateApplication(appId uuid.UUID, appName string, updateTime time.Time) error {
 	ctx, err := database.GetDbContext()
 	if err != nil {
 		return err
 	}
 
-	if _, err = ctx.Exec(query.UpdateApp); err != nil {
+	if _, err = ctx.Exec(query.UpdateApp, appId, appName, updateTime); err != nil {
 		return err
 	}
 	return nil

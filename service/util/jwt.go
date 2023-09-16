@@ -2,6 +2,7 @@ package util
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-chi/jwtauth/v5"
 )
@@ -16,10 +17,10 @@ func GetClaimsFromContext(ctx context.Context) (map[string]interface{}, error) {
 }
 
 // Function for obtaining a user id from context.
-func GetUserIdFromContext(ctx context.Context) (interface{}, error) {
+func GetUserIdFromContext(ctx context.Context) (string, error) {
 	claims, err := GetClaimsFromContext(ctx)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return claims["user_id"], nil
+	return fmt.Sprint(claims["sub"]), nil
 }

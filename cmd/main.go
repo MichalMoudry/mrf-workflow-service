@@ -23,6 +23,7 @@ func main() {
 	)
 
 	err = http.ListenAndServe(fmt.Sprintf(":%d", handler.Port), handler.Mux)
+	fmt.Printf("Listening on port: %d\n", cfg.Port)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -1,6 +1,7 @@
 package ioc
 
 import (
+	"time"
 	"workflow-service/database/model"
 
 	"github.com/google/uuid"
@@ -18,5 +19,5 @@ type IApplicationRepository interface {
 	DeleteApplication(appId uuid.UUID) error
 
 	// Method for updating app's name.
-	UpdateApplication(appId uuid.UUID, app_name string) error
+	UpdateApplication(appId uuid.UUID, app_name string, updateTime time.Time) error
 }

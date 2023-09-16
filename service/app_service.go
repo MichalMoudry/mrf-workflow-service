@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"fmt"
+	"time"
 	"workflow-service/database"
 	"workflow-service/database/model"
 	"workflow-service/service/model/ioc"
@@ -39,7 +39,7 @@ func (srvc ApplicationService) CreateApp(ctx context.Context, name string) (uuid
 		err = database.EndTransaction(tx, err)
 	}()
 
-	appId, err := srvc.AppRepository.AddApplication(name, fmt.Sprint(userId))
+	appId, err := srvc.AppRepository.AddApplication(name, userId)
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -80,7 +80,7 @@ func (srvc ApplicationService) UpdateApp(ctx context.Context, appId uuid.UUID, a
 		return err
 	}
 
-	if err = srvc.AppRepository.UpdateApplication(appId, appName); err != nil {
+	if err = srvc.AppRepository.UpdateApplication(appId, appName, time.Now()); err != nil {
 		return err
 	}
 	return nil
