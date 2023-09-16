@@ -26,6 +26,17 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 	//Protected routes
 	handler.Mux.Group(func(r chi.Router) {
 		r.Route("/apps", func(r chi.Router) {
+			r.Post("/", handler.CreateApp)
+			r.Route("/{appid}", func(r chi.Router) {
+				r.Get("/", handler.GetAppInfo)
+			})
+		})
+
+		r.Route("/workflows", func(r chi.Router) {
+
+		})
+
+		r.Route("/templates", func(r chi.Router) {
 
 		})
 	})
