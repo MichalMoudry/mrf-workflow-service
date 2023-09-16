@@ -12,8 +12,8 @@ type ServiceCollection struct {
 }
 
 // A constructor function for ServiceCollection structure.
-func NewServiceCollection() *ServiceCollection {
-	return &ServiceCollection{
+func NewServiceCollection() ServiceCollection {
+	return ServiceCollection{
 		AppService: service.NewAppService(
 			repositories.ApplicationRepository{},
 		),
