@@ -53,11 +53,25 @@ func (srvc ApplicationService) GetAppInfo(ctx context.Context, appId uuid.UUID) 
 		return model.ApplicationInfo{}, err
 	}
 
-	appData, err := srvc.AppRepository.GetApplication(appId)
+	appData, err := srvc.AppRepository.GetApp(appId)
 	if err != nil {
 		return model.ApplicationInfo{}, err
 	}
 	return appData, nil
+}
+
+// Method for retrieving information about user's applications.
+func (srvc ApplicationService) GetAppInfos(ctx context.Context) ([]model.ApplicationInfo, error) {
+	userId, err := util.GetUserIdFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := srvc.AppRepository.GetUsersApps(userId)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }
 
 // A method for deleting an existing app from the system.

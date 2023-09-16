@@ -34,7 +34,7 @@ func (ApplicationRepository) AddApplication(name, creatorId string) (uuid.UUID, 
 }
 
 // A method for retrieving basic info about a specific app.
-func (ApplicationRepository) GetApplication(appId uuid.UUID) (model.ApplicationInfo, error) {
+func (ApplicationRepository) GetApp(appId uuid.UUID) (model.ApplicationInfo, error) {
 	ctx, err := database.GetDbContext()
 	if err != nil {
 		return model.ApplicationInfo{}, err
@@ -45,6 +45,20 @@ func (ApplicationRepository) GetApplication(appId uuid.UUID) (model.ApplicationI
 		return model.ApplicationInfo{}, nil
 	}
 	return data, nil
+}
+
+// A method for retrieving basic info about user's apps from the database.
+func (ApplicationRepository) GetUsersApps(userId string) ([]model.ApplicationInfo, error) {
+	ctx, err := database.GetDbContext()
+	if err != nil {
+		return nil, err
+	}
+
+	var apps []model.ApplicationInfo
+	if err = ctx.Select(&apps, query.GetApps, userId); err != nil {
+		return nil, err
+	}
+	return apps, nil
 }
 
 // A method for deleting an existing app from the database.

@@ -47,6 +47,17 @@ func (handler *Handler) GetAppInfo(w http.ResponseWriter, r *http.Request) {
 	util.WriteResponse(w, http.StatusOK, appInfo)
 }
 
+// Method for handling requests for obtaining a list of information about user's apps.
+func (handler *Handler) GetUsersApps(w http.ResponseWriter, r *http.Request) {
+	data, err := handler.Services.AppService.GetAppInfos(r.Context())
+	if err != nil {
+		util.WriteErrResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	util.WriteResponse(w, http.StatusOK, data)
+}
+
 // Method for handling request for deleting a specific app.
 func (handler *Handler) DeleteApp(w http.ResponseWriter, r *http.Request) {
 	appId, err := util.GetUuidFromUrl(r)

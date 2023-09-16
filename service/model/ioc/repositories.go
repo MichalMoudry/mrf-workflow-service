@@ -13,7 +13,10 @@ type IApplicationRepository interface {
 	AddApplication(name, creatorId string) (uuid.UUID, error)
 
 	// A method for retrieving basic info about a specific app.
-	GetApplication(appId uuid.UUID) (model.ApplicationInfo, error)
+	GetApp(appId uuid.UUID) (model.ApplicationInfo, error)
+
+	// A method for retrieving basic info about user's apps from the database.
+	GetUsersApps(userId string) ([]model.ApplicationInfo, error)
 
 	// A method for deleting an existing app from the database.
 	DeleteApplication(appId uuid.UUID) error
