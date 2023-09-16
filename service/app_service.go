@@ -72,3 +72,16 @@ func (srvc ApplicationService) DeleteApp(ctx context.Context, appId uuid.UUID) e
 	}
 	return nil
 }
+
+// A method for updating a specific recognition app.
+func (srvc ApplicationService) UpdateApp(ctx context.Context, appId uuid.UUID, appName string) error {
+	_, err := util.GetUserIdFromContext(ctx)
+	if err != nil {
+		return err
+	}
+
+	if err = srvc.AppRepository.UpdateApplication(appId, appName); err != nil {
+		return err
+	}
+	return nil
+}
