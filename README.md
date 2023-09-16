@@ -19,5 +19,6 @@ This section describes the deployment process of this service.
 - go
 - Docker
 - dapr
+- Firebase
 
 ### Used libraries

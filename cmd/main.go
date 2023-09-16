@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"workflow-service/config"
 	"workflow-service/transport"
 	"workflow-service/transport/model"
+
+	firebase "firebase.google.com/go/v4"
 )
 
 func main() {
@@ -14,6 +17,11 @@ func main() {
 	cfg, err := config.ReadCfgFromFile("config.json")
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	_, err = firebase.NewApp(context.Background(), config.GetFirebaseConfig())
+	if err != nil {
+		log.Fatalf("error initializing Firebase app: %v\n", err)
 	}
 
 	fmt.Printf("Trying to start a server on %d port.\n", cfg.Port)
