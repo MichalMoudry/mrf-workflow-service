@@ -20,11 +20,12 @@ type Application struct {
 func NewApplication(name, creatorId string) *Application {
 	now := time.Now()
 	return &Application{
-		Id:          uuid.New(),
-		Name:        name,
-		CreatorId:   creatorId,
-		DateAdded:   now,
-		DateUpdated: now,
+		Id:               uuid.New(),
+		Name:             name,
+		CreatorId:        creatorId,
+		ConcurrencyStamp: uuid.New(),
+		DateAdded:        now,
+		DateUpdated:      now,
 	}
 }
 
@@ -54,11 +55,12 @@ type Workflow struct {
 func NewWorkflow(name string, appId uuid.UUID, settings WorkflowSetting) *Workflow {
 	now := time.Now()
 	return &Workflow{
-		Id:          uuid.New(),
-		Name:        name,
-		Settings:    settings,
-		DateAdded:   now,
-		DateUpdated: now,
+		Id:               uuid.New(),
+		Name:             name,
+		Settings:         settings,
+		ConcurrencyStamp: uuid.New(),
+		DateAdded:        now,
+		DateUpdated:      now,
 	}
 }
 
@@ -86,12 +88,13 @@ type DocumentTemplate struct {
 func NewDocumentTemplate(name string, width, height float32) *DocumentTemplate {
 	now := time.Now()
 	return &DocumentTemplate{
-		Id:          uuid.New(),
-		Name:        name,
-		Width:       width,
-		Height:      height,
-		DateAdded:   now,
-		DateUpdated: now,
+		Id:               uuid.New(),
+		Name:             name,
+		Width:            width,
+		Height:           height,
+		ConcurrencyStamp: uuid.New(),
+		DateAdded:        now,
+		DateUpdated:      now,
 	}
 }
 
@@ -114,15 +117,16 @@ type TemplateField struct {
 func NewTemplateField(name string, width, height, xPos, yPos float32, expectedVal string, isId bool) *TemplateField {
 	now := time.Now()
 	return &TemplateField{
-		Id:            uuid.New(),
-		Name:          name,
-		Width:         width,
-		Height:        height,
-		XPosition:     xPos,
-		YPosition:     yPos,
-		ExpectedValue: expectedVal,
-		IsIdentifying: isId,
-		DateAdded:     now,
-		DateUpdated:   now,
+		Id:               uuid.New(),
+		Name:             name,
+		Width:            width,
+		Height:           height,
+		XPosition:        xPos,
+		YPosition:        yPos,
+		ExpectedValue:    expectedVal,
+		IsIdentifying:    isId,
+		ConcurrencyStamp: uuid.New(),
+		DateAdded:        now,
+		DateUpdated:      now,
 	}
 }

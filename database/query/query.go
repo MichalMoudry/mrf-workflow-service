@@ -13,6 +13,10 @@ var (
 	CreateWorkflow string
 	//go:embed scripts/commands/DeleteWorkflow.sql
 	DeleteWorkflow string
+	//go:embed scripts/commands/CreateTemplate.sql
+	CreateTemplate string
+	//go:embed scripts/commands/DeleteTemplate.sql
+	DeleteTemplate string
 
 	//go:embed scripts/queries/GetApp.sql
 	GetApp string
