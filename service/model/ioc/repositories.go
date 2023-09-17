@@ -39,3 +39,12 @@ type IWorkflowRepository interface {
 	// Method for deleting a workflow from the database.
 	DeleteWorkflow(workflowId uuid.UUID) error
 }
+
+// An interface for a repository connected to document templates.
+type ITemplateRepository interface {
+	// A method for adding a new document template to the database.
+	AddTemplate(template *model.DocumentTemplate) (uuid.UUID, error)
+
+	// A method for deleting a specific template from the database.
+	DeleteTemplate(templateId uuid.UUID) error
+}
