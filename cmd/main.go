@@ -10,7 +10,6 @@ import (
 	"workflow-service/transport/model"
 
 	firebase "firebase.google.com/go/v4"
-	dapr "github.com/dapr/go-sdk/client"
 )
 
 func main() {
@@ -22,12 +21,12 @@ func main() {
 	}
 
 	// Dapr client init
-	daprClient, err := dapr.NewClient()
+	/*daprClient, err := dapr.NewClient()
 	if err != nil {
 		log.Println(err)
 		daprClient.Close()
 	}
-	defer daprClient.Close()
+	defer daprClient.Close()*/
 
 	// Firebase init
 	_, err = firebase.NewApp(context.Background(), config.GetFirebaseConfig())
