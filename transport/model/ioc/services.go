@@ -25,3 +25,18 @@ type IApplicationService interface {
 	// A method for updating a specific recognition app.
 	UpdateApp(ctx context.Context, appId uuid.UUID, appName string) error
 }
+
+// An interface for a recognition workflow service.
+type IWorkflowService interface {
+	// A method for creating a new workflow in the system.
+	CreateWorkflow(ctx context.Context, name string, appId uuid.UUID, settings model.WorkflowSetting) (uuid.UUID, error)
+
+	// Method for obtaining information about a specific workflow in the system.
+	GetWorkflowInfo(ctx context.Context, workflowId uuid.UUID) (model.WorkflowInfo, error)
+
+	// Method for obtaining a list of information about app's workflows.
+	GetWorkflowsInfo(ctx context.Context, appId uuid.UUID) ([]model.WorkflowInfo, error)
+
+	// Method for removing an existing service from the system.
+	DeleteWorkflow(ctx context.Context, workflowId uuid.UUID) (err error)
+}

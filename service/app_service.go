@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// A structure representing a service for working with Application entity.
+// A structure representing a service for working with the Application entity.
 type ApplicationService struct {
 	AppRepository ioc.IApplicationRepository
 }
@@ -39,11 +39,7 @@ func (srvc ApplicationService) CreateApp(ctx context.Context, name string) (uuid
 		err = database.EndTransaction(tx, err)
 	}()
 
-	appId, err := srvc.AppRepository.AddApplication(name, userId)
-	if err != nil {
-		return uuid.Nil, err
-	}
-	return appId, nil
+	return srvc.AppRepository.AddApplication(name, userId)
 }
 
 // Method for retrieving information about a specific recognition app.
@@ -53,11 +49,7 @@ func (srvc ApplicationService) GetAppInfo(ctx context.Context, appId uuid.UUID) 
 		return model.ApplicationInfo{}, err
 	}
 
-	appData, err := srvc.AppRepository.GetApp(appId)
-	if err != nil {
-		return model.ApplicationInfo{}, err
-	}
-	return appData, nil
+	return srvc.AppRepository.GetApp(appId)
 }
 
 // Method for retrieving information about user's applications.
@@ -67,11 +59,7 @@ func (srvc ApplicationService) GetAppInfos(ctx context.Context) ([]model.Applica
 		return nil, err
 	}
 
-	data, err := srvc.AppRepository.GetUsersApps(userId)
-	if err != nil {
-		return nil, err
-	}
-	return data, nil
+	return srvc.AppRepository.GetUsersApps(userId)
 }
 
 // A method for deleting an existing app from the system.
@@ -81,10 +69,7 @@ func (srvc ApplicationService) DeleteApp(ctx context.Context, appId uuid.UUID) e
 		return err
 	}
 
-	if err = srvc.AppRepository.DeleteApplication(appId); err != nil {
-		return err
-	}
-	return nil
+	return srvc.AppRepository.DeleteApplication(appId)
 }
 
 // A method for updating a specific recognition app.
@@ -94,8 +79,5 @@ func (srvc ApplicationService) UpdateApp(ctx context.Context, appId uuid.UUID, a
 		return err
 	}
 
-	if err = srvc.AppRepository.UpdateApplication(appId, appName, time.Now()); err != nil {
-		return err
-	}
-	return nil
+	return srvc.AppRepository.UpdateApplication(appId, appName, time.Now())
 }
