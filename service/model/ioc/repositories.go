@@ -24,3 +24,18 @@ type IApplicationRepository interface {
 	// Method for updating app's name.
 	UpdateApplication(appId uuid.UUID, app_name string, updateTime time.Time) error
 }
+
+// An interface for a repository connected to Workflow structure.
+type IWorkflowRepository interface {
+	// A method for adding a new workflow to the database.
+	AddWorkflow(name string, appId uuid.UUID, settings model.WorkflowSetting) (uuid.UUID, error)
+
+	// Method for retrieving info about a workflow from the database.
+	GetWorkflow(workflowId uuid.UUID) (model.WorkflowInfo, error)
+
+	// A method for retrieving a list of workflows for a specific recognition app.
+	GetWorkflows(appId uuid.UUID) ([]model.WorkflowInfo, error)
+
+	// Method for deleting a workflow from the database.
+	DeleteWorkflow(workflowId uuid.UUID) error
+}

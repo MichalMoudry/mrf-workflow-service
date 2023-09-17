@@ -24,7 +24,8 @@ func main() {
 	// Dapr client init
 	daprClient, err := dapr.NewClient()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		daprClient.Close()
 	}
 	defer daprClient.Close()
 
@@ -40,8 +41,8 @@ func main() {
 		cfg.Port,
 		model.NewServiceCollection(),
 	)
-	err = http.ListenAndServe(fmt.Sprintf(":%d", handler.Port), handler.Mux)
 	fmt.Printf("Listening on port: %d\n", cfg.Port)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", handler.Port), handler.Mux)
 	if err != nil {
 		log.Fatal(err)
 	}
