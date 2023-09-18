@@ -1,0 +1,16 @@
+@hostname=localhost
+@port=8080
+
+# @name createApp
+POST http://{{hostname}}:{{port}}/apps HTTP/1.1
+
+{
+    "app_name": "test_app_1"
+}
+
+###
+
+@appId = {{createApp.response}}
+
+# @name getApp
+GET http://{{hostname}}:{{port}}/apps/{{appId}} HTTP/1.1
