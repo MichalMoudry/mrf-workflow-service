@@ -38,7 +38,12 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 		})
 
 		r.Route("/workflows", func(r chi.Router) {
-
+			r.Post("/", handler.CreateWorkflow)
+			r.Get("/app/{appid}", handler.GetWorkflowsInfo)
+			r.Route("/{workflowid}", func(r chi.Router) {
+				r.Get("/", handler.GetWorkflowInfo)
+				r.Delete("/", handler.DeleteWorkflow)
+			})
 		})
 
 		r.Route("/templates", func(r chi.Router) {

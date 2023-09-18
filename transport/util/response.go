@@ -14,6 +14,8 @@ func WriteErrResponse(w http.ResponseWriter, statusCode int, err error) {
 
 func WriteResponse(w http.ResponseWriter, statusCode int, body any) {
 	w.WriteHeader(statusCode)
-	b, _ := json.Marshal(body)
-	w.Write(b)
+	if body != nil {
+		b, _ := json.Marshal(body)
+		w.Write(b)
+	}
 }

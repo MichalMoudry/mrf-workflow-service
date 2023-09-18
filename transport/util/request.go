@@ -30,3 +30,8 @@ func UnmarshallRequest(request *http.Request, b any) error {
 func GetUuidFromUrl(r *http.Request) (uuid.UUID, error) {
 	return uuid.Parse(chi.URLParam(r, "uuid"))
 }
+
+// Parses unsafely string input as an UUID.
+func ParseStringAsUuid(input string) uuid.UUID {
+	return uuid.MustParse(input)
+}
