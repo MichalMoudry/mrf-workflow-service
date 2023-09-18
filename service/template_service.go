@@ -27,7 +27,7 @@ func NewTemplateService(templateRepo ioc.ITemplateRepository, fieldRepo ioc.IFie
 func (srvc TemplateService) CreateTemplate(ctx context.Context, data contracts.CreateTemplateRequest) (templateId uuid.UUID, err error) {
 	tx, err := database.BeginTransaction(ctx)
 	if err != nil {
-		return uuid.Nil, err
+		return
 	}
 	defer func() { err = database.EndTransaction(tx, err) }()
 
@@ -48,5 +48,17 @@ func (srvc TemplateService) CreateTemplate(ctx context.Context, data contracts.C
 		)
 	}
 	err = srvc.FieldRepository.AddFields(fields)
+	return
+}
+
+// A method for deleting a specific document template in the system.
+func (srvc TemplateService) DeleteTemplate(ctx context.Context, templateId uuid.UUID) (err error) {
+	tx, err := database.BeginTransaction(ctx)
+	if err != nil {
+		return
+	}
+	defer func() { err = database.EndTransaction(tx, err) }()
+
+	err = srvc.TemplateRepository.DeleteTemplate(templateId)
 	return
 }

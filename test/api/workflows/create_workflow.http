@@ -1,0 +1,12 @@
+@hostname=localhost
+@port=8080
+
+POST http://{{hostname}}:{{port}}/workflows HTTP/1.1
+
+{
+    "workflow_name": "test_workflow_1",
+    "app_id": "",
+    "is_full_page_recog": true,
+    "skip_img_enhancement": false,
+    "expect_diff_images": false
+}

@@ -12,7 +12,7 @@ type UpdateAppRequest struct {
 
 // A structure representing data of a HTTP request for creating a new recognition workflow.
 type CreateWorkflowRequest struct {
-	Name                  string `json:"workflow_id" validate:"required,min=3,max=200"`
+	Name                  string `json:"workflow_name" validate:"required,min=3,max=200"`
 	AppId                 string `json:"app_id" validate:"uuid,required"`
 	IsFullPageRecognition bool   `json:"is_full_page_recog" validate:"boolean,required"`
 	SkipImageEnhancement  bool   `json:"skip_img_enhancement" validate:"boolean,required"`

@@ -1,0 +1,9 @@
+@hostname=localhost
+@port=8080
+@appid=""
+
+PATCH http://{{hostname}}:{{port}}/apps/{{appid}} HTTP/1.1
+
+{
+    "new_app_name": "test_app_2"
+}
