@@ -4,8 +4,15 @@ import (
 	"context"
 	"workflow-service/database/model"
 
+	"firebase.google.com/go/v4/auth"
 	"github.com/google/uuid"
 )
+
+// An interface for a user service.
+type IUserService interface {
+	// Method for validating user's token.
+	VerifyIdToken(ctx context.Context, token string) (*auth.Token, error)
+}
 
 // An interface for a recognition application service.
 type IApplicationService interface {

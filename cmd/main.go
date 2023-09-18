@@ -29,16 +29,20 @@ func main() {
 	defer daprClient.Close()*/
 
 	// Firebase init
-	_, err = firebase.NewApp(context.Background(), config.GetFirebaseConfig())
+	firebaseApp, err := firebase.NewApp(context.Background(), config.GetFirebaseConfig())
 	if err != nil {
-		log.Fatalf("error initializing Firebase app: %v\n", err)
+		log.Fatalf("error initializing Firebase app:\n%v\n", err)
+	}
+	authClient, err := firebaseApp.Auth(context.Background())
+	if err != nil {
+		log.Printf("error initializing auth client:\n%v\n", err) // TODO: Switch to Fatalf
 	}
 
 	// Start web server
 	fmt.Printf("Trying to start a server on %d port.\n", cfg.Port)
 	handler := transport.Initalize(
 		cfg.Port,
-		model.NewServiceCollection(),
+		model.NewServiceCollection(authClient),
 	)
 	fmt.Printf("Listening on port: %d\n", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", handler.Port), handler.Mux)
