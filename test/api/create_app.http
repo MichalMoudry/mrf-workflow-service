@@ -1,0 +1,8 @@
+@hostname=localhost
+@port=8080
+
+POST http://{{hostname}}:{{port}}/apps HTTP/1.1
+
+{
+    "app_name": "test_app_1"
+}

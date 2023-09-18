@@ -1,0 +1,5 @@
+@hostname=localhost
+@port=8080
+@appid=""
+
+GET http://{{hostname}}:{{port}}/apps/{{appid}} HTTP/1.1

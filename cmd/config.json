@@ -1,3 +1,4 @@
 {
-    "port": 8443
+    "port": 8080,
+    "ConnectionString": "postgres://root:root@localhost:5432/recognition-serv-db?sslmode=disable"
 }

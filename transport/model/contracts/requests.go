@@ -18,3 +18,20 @@ type CreateWorkflowRequest struct {
 	SkipImageEnhancement  bool   `json:"skip_img_enhancement" validate:"boolean,required"`
 	ExpectDifferentImages bool   `json:"expect_diff_images" validate:"boolean,required"`
 }
+
+type CreateTemplateRequest struct {
+	Name   string               `json:"template_name" validate:"required,min=3,max=200"`
+	Width  float32              `json:"width" validate:"required,number"`
+	Height float32              `json:"height" validate:"required,number"`
+	Fields []CreateFieldRequest `json:"fields" validate:"required,dive,required"`
+}
+
+type CreateFieldRequest struct {
+	Name          string  `json:"field_name" validate:"required,min=3,max=200"`
+	Width         float32 `json:"width" validate:"required,number"`
+	Height        float32 `json:"height" validate:"required,number"`
+	XPosition     float32 `json:"x_pos" validate:"required,number"`
+	YPosition     float32 `json:"y_pos" validate:"required,number"`
+	ExpectedValue string  `json:"expected_value" validate:"required,min=1,max=255"`
+	IsIdentifying bool    `json:"is_identifying" validate:"required,boolean"`
+}

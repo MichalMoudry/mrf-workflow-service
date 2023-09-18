@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"workflow-service/config"
+	"workflow-service/database"
 	"workflow-service/transport"
 	"workflow-service/transport/model"
 
@@ -17,6 +18,14 @@ func main() {
 	// Read app's config
 	cfg, err := config.ReadCfgFromFile("config.json")
 	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf(
+		"Trying to connect to the database.\nConnection string: %s\n",
+		cfg.ConnectionString,
+	)
+	if err = database.OpenDb(cfg.ConnectionString); err != nil {
 		log.Fatal(err)
 	}
 

@@ -17,7 +17,7 @@ func (TemplateRepository) AddTemplate(template *model.DocumentTemplate) (uuid.UU
 		return uuid.Nil, err
 	}
 
-	rows, err := ctx.NamedQuery(query.CreateWorkflow, template)
+	rows, err := ctx.NamedQuery(query.CreateTemplate, template)
 	if err != nil {
 		return uuid.Nil, err
 	}

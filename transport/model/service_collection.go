@@ -13,6 +13,7 @@ type ServiceCollection struct {
 	UserService     ioc.IUserService
 	AppService      ioc.IApplicationService
 	WorkflowService ioc.IWorkflowService
+	TemplateService ioc.ITemplateService
 }
 
 // A constructor function for ServiceCollection structure.

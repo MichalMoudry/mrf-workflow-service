@@ -3,6 +3,7 @@ package ioc
 import (
 	"context"
 	"workflow-service/database/model"
+	"workflow-service/transport/model/contracts"
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/google/uuid"
@@ -46,4 +47,13 @@ type IWorkflowService interface {
 
 	// Method for removing an existing service from the system.
 	DeleteWorkflow(ctx context.Context, workflowId uuid.UUID) (err error)
+}
+
+// An interface for a document template service.
+type ITemplateService interface {
+	// A method for creating a new document template in the system.
+	CreateTemplate(ctx context.Context, data contracts.CreateTemplateRequest) (uuid.UUID, error)
+
+	// A method for deleting a specific document template in the system.
+	DeleteTemplate(ctx context.Context, templateId uuid.UUID) error
 }

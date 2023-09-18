@@ -30,7 +30,7 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 		r.Route("/apps", func(r chi.Router) {
 			r.Post("/", handler.CreateApp)
 			r.Get("/", handler.GetUsersApps)
-			r.Route("/{appid}", func(r chi.Router) {
+			r.Route("/{uuid}", func(r chi.Router) {
 				r.Get("/", handler.GetAppInfo)
 				r.Delete("/", handler.DeleteApp)
 				r.Patch("/", handler.UpdateApp)
@@ -39,15 +39,19 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 
 		r.Route("/workflows", func(r chi.Router) {
 			r.Post("/", handler.CreateWorkflow)
-			r.Get("/app/{appid}", handler.GetWorkflowsInfo)
-			r.Route("/{workflowid}", func(r chi.Router) {
+			r.Get("/app/{uuid}", handler.GetWorkflowsInfo)
+			r.Route("/{uuid}", func(r chi.Router) {
 				r.Get("/", handler.GetWorkflowInfo)
 				r.Delete("/", handler.DeleteWorkflow)
 			})
 		})
 
 		r.Route("/templates", func(r chi.Router) {
-
+			r.Post("/", handler.CreateTemplate)
+			r.Route("/{uuid}", func(r chi.Router) {
+				r.Delete("/", handler.DeleteTemplate)
+				r.Patch("/image", handler.UpdateTemplateImage)
+			})
 		})
 	})
 
