@@ -1,0 +1,5 @@
+@hostname=localhost
+@port=8080
+@workflowId=5fd7daa0-2f13-4086-b78b-edbd22219471
+
+DELETE http://{{hostname}}:{{port}}/workflows/{{workflowId}} HTTP/1.1
