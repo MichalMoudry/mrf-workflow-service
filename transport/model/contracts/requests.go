@@ -14,9 +14,9 @@ type UpdateAppRequest struct {
 type CreateWorkflowRequest struct {
 	Name                  string `json:"workflow_name" validate:"required,min=3,max=200"`
 	AppId                 string `json:"app_id" validate:"uuid,required"`
-	IsFullPageRecognition bool   `json:"is_full_page_recog" validate:"boolean,required"`
-	SkipImageEnhancement  bool   `json:"skip_img_enhancement" validate:"boolean,required"`
-	ExpectDifferentImages bool   `json:"expect_diff_images" validate:"boolean,required"`
+	IsFullPageRecognition string `json:"is_full_page_recog" validate:"boolean,required"`
+	SkipImageEnhancement  string `json:"skip_img_enhancement" validate:"boolean,required"`
+	ExpectDifferentImages string `json:"expect_diff_images" validate:"boolean,required"`
 }
 
 type CreateTemplateRequest struct {

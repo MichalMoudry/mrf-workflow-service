@@ -5,8 +5,8 @@ POST http://{{hostname}}:{{port}}/workflows HTTP/1.1
 
 {
     "workflow_name": "test_workflow_1",
-    "app_id": "",
-    "is_full_page_recog": true,
-    "skip_img_enhancement": false,
-    "expect_diff_images": false
+    "app_id": "9bf82748-53ea-4a49-85a7-1d184d769721",
+    "is_full_page_recog": "true",
+    "skip_img_enhancement": "false",
+    "expect_diff_images": "false"
 }

@@ -41,34 +41,32 @@ type ApplicationUsers struct {
 
 // A structure representing a recognition workflow/process.
 type Workflow struct {
-	Id               uuid.UUID `db:"id"`
-	Name             string    `db:"workflow_name"`
-	ApplicationId    uuid.UUID `db:"application_id"`
-	Templates        []DocumentTemplate
-	Settings         WorkflowSetting
-	ConcurrencyStamp uuid.UUID `db:"concurrency_stamp"`
-	DateAdded        time.Time `db:"date_added"`
-	DateUpdated      time.Time `db:"date_updated"`
+	Id                    uuid.UUID `db:"id"`
+	Name                  string    `db:"workflow_name"`
+	ApplicationId         uuid.UUID `db:"application_id"`
+	Templates             []DocumentTemplate
+	IsFullPageRecognition bool      `db:"setting_is_full_page_recog"`
+	SkipImageEnhancement  bool      `db:"setting_skip_enhancement"`
+	ExpectDifferentImages bool      `db:"setting_expect_diff_images"`
+	ConcurrencyStamp      uuid.UUID `db:"concurrency_stamp"`
+	DateAdded             time.Time `db:"date_added"`
+	DateUpdated           time.Time `db:"date_updated"`
 }
 
 // A constructor function for the Application structure.
 func NewWorkflow(name string, appId uuid.UUID, settings WorkflowSetting) *Workflow {
 	now := time.Now()
 	return &Workflow{
-		Id:               uuid.New(),
-		Name:             name,
-		Settings:         settings,
-		ConcurrencyStamp: uuid.New(),
-		DateAdded:        now,
-		DateUpdated:      now,
+		Id:                    uuid.New(),
+		Name:                  name,
+		ApplicationId:         appId,
+		IsFullPageRecognition: settings.IsFullPageRecognition,
+		SkipImageEnhancement:  settings.SkipImageEnhancement,
+		ExpectDifferentImages: settings.ExpectDifferentImages,
+		ConcurrencyStamp:      uuid.New(),
+		DateAdded:             now,
+		DateUpdated:           now,
 	}
-}
-
-// A structure representing a setting of a specific recognition workflow.
-type WorkflowSetting struct {
-	IsFullPageRecognition bool `db:"setting_is_full_page_recog"`
-	SkipImageEnhancement  bool `db:"setting_skip_enhancement"`
-	ExpectDifferentImages bool `db:"setting_expect_diff_images"`
 }
 
 // A structure representing a template of a processed document.

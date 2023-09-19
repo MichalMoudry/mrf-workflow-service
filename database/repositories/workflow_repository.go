@@ -19,14 +19,14 @@ func (WorkflowRepository) AddWorkflow(name string, appId uuid.UUID, settings mod
 
 	rows, err := ctx.NamedQuery(query.CreateWorkflow, model.NewWorkflow(name, appId, settings))
 	if err != nil {
-		return uuid.Nil, nil
+		return uuid.Nil, err
 	}
 	var returnedId string
 	for rows.Next() {
 		err = rows.Scan(&returnedId)
 	}
 	if err != nil {
-		return uuid.Nil, nil
+		return uuid.Nil, err
 	}
 
 	return uuid.Parse(returnedId)
@@ -41,7 +41,7 @@ func (WorkflowRepository) GetWorkflow(workflowId uuid.UUID) (model.WorkflowInfo,
 
 	var data model.WorkflowInfo
 	if err = ctx.Get(&data, query.GetWorkflow, workflowId); err != nil {
-		return model.WorkflowInfo{}, nil
+		return model.WorkflowInfo{}, err
 	}
 	return data, nil
 }

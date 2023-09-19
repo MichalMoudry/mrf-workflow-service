@@ -2,6 +2,7 @@ package transport
 
 import (
 	"net/http"
+	"strconv"
 	"workflow-service/database/model"
 	"workflow-service/transport/model/contracts"
 	"workflow-service/transport/util"
@@ -15,14 +16,17 @@ func (handler *Handler) CreateWorkflow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	isFullPage, _ := strconv.ParseBool(requestData.IsFullPageRecognition)
+	skipImageEnhancement, _ := strconv.ParseBool(requestData.SkipImageEnhancement)
+	expectedDiffImages, _ := strconv.ParseBool(requestData.ExpectDifferentImages)
 	workflowId, err := handler.Services.WorkflowService.CreateWorkflow(
 		r.Context(),
 		requestData.Name,
 		util.ParseStringAsUuid(requestData.AppId),
 		model.WorkflowSetting{
-			IsFullPageRecognition: requestData.IsFullPageRecognition,
-			SkipImageEnhancement:  requestData.SkipImageEnhancement,
-			ExpectDifferentImages: requestData.ExpectDifferentImages,
+			IsFullPageRecognition: isFullPage,
+			SkipImageEnhancement:  skipImageEnhancement,
+			ExpectDifferentImages: expectedDiffImages,
 		},
 	)
 	if err != nil {
