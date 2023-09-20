@@ -23,7 +23,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: michalmoudry/mrf-workflow-service
+          images: michalmoudry/workflow-service
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
