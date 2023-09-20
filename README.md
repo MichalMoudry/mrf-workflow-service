@@ -6,13 +6,14 @@
 A repository with a service for managing document recognition workflows. This repository is part of [Microservice Reference Framework](https://github.com/MichalMoudry/microservice-reference-framework "Go to Microservice Reference Framework GitHub page").
 
 ## Project structure
-- **/cmd** - Folder with app's entry point.
-- **/config** - Package with service configuration code. That includes functions for reading environment variables and config files.
-- /transport
-- /service
-- /database
-- **/test** - Folder containing additional tests outside of unit tests that are part of the main package.
-    - /api
+- **/src** - A folder with all the source code for the workflow service.
+    - **/cmd** - Folder with app's entry point.
+    - **/config** - Package with service configuration code. That includes functions for reading environment variables and config files.
+    - /transport
+    - /service
+    - /database
+    - **/test** - Folder containing additional tests outside of unit tests that are part of the main package.
+        - /api
 - **/.github** - A folder with YAML definitions of GitHub Actions.
 - **/repository_assets** - A folder with assets for this repository and not assets for this service.
 
