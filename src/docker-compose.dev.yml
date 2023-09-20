@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: workflow-service
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8080:8443"
+    environment:
+      - CONNECTION_STRING="postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable"
+
+  db:
+    image: postgres:15
+    container_name: workflow-serv-db
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=workflow-serv-db
+      - PGUSER=root
+    ports:
+      - "5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "workflow-serv-db"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  migrate:
+    image: migrate/migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./database/migrations:/migrations
+    command:
+      [ "-path", "/migrations", "-database", "postgres://root:root@db:5432/workflow-serv-db?sslmode=disable", "up"]
+
+volumes:
+  pgdata:

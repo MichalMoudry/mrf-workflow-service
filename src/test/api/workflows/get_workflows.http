@@ -1,0 +1,5 @@
+@hostname=localhost
+@port=8080
+@appid=9bf82748-53ea-4a49-85a7-1d184d769721
+
+GET http://{{hostname}}:{{port}}/workflows/app/{{appid}} HTTP/1.1
