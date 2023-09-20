@@ -2,30 +2,30 @@ version: "3.9"
 
 services:
   app:
-    container_name: recognition-services
+    container_name: workflow-service
     build:
       dockerfile: Dockerfile
       context: .
     ports:
       - "8080:8443"
     environment:
-      - CONNECTION_STRING="postgres://root:root@localhost:5432/recognition-serv-db?sslmode=disable"
+      - CONNECTION_STRING="postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable"
 
   db:
     image: postgres:15
-    container_name: recognition-serv-db
+    container_name: workflow-serv-db
     restart: always
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=recognition-serv-db
+      - POSTGRES_DB=workflow-serv-db
       - PGUSER=root
     ports:
       - "5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "recognition-serv-db"]
+      test: ["CMD", "pg_isready", "-d", "workflow-serv-db"]
       interval: 30s
       timeout: 5s
       retries: 5
@@ -38,7 +38,7 @@ services:
     volumes:
       - ./database/migrations:/migrations
     command:
-      [ "-path", "/migrations", "-database", "postgres://root:root@db:5432/recognition-serv-db?sslmode=disable", "up"]
+      [ "-path", "/migrations", "-database", "postgres://root:root@db:5432/workflow-serv-db?sslmode=disable", "up"]
 
 volumes:
   pgdata:
