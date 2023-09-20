@@ -18,10 +18,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf(
-		"Trying to connect to the database.\nConnection string: %s\n",
-		cfg.ConnectionString,
-	)
 	if err = database.OpenDb(cfg.ConnectionString); err != nil {
 		log.Fatal(err)
 	}

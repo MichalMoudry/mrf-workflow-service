@@ -4,7 +4,6 @@ go 1.21.0
 
 require (
 	github.com/go-chi/chi/v5 v5.0.10
-	github.com/go-chi/docgen v1.2.0
 	github.com/go-chi/jwtauth/v5 v5.1.1
 	github.com/go-playground/validator/v10 v10.15.3
 	github.com/google/uuid v1.3.1

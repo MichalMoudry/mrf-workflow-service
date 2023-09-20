@@ -32,6 +32,6 @@ type CreateFieldRequest struct {
 	Height        float32 `json:"height" validate:"required,number"`
 	XPosition     float32 `json:"x_pos" validate:"required,number"`
 	YPosition     float32 `json:"y_pos" validate:"required,number"`
-	ExpectedValue string  `json:"expected_value" validate:"required,min=1,max=255"`
+	ExpectedValue string  `json:"expected_value" validate:"required,max=255"`
 	IsIdentifying bool    `json:"is_identifying" validate:"required,boolean"`
 }
