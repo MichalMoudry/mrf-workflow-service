@@ -9,11 +9,11 @@ A repository with a service for managing document recognition workflows. This re
 - **/src** - A folder with all the source code for the workflow service.
     - **/cmd** - Folder with app's entry point.
     - **/config** - Package with service configuration code. That includes functions for reading environment variables and config files.
-    - /transport
+    - **/transport** - Package with a source code for a transport layer of this service. This packages contains things like request validation, HTTP handler and more.
     - /service
     - /database
     - **/test** - Folder containing additional tests outside of unit tests that are part of the main package.
-        - /api
+        - /api - A folder containing .http files that are used to test workflow service's API.
 - **/.github** - A folder with YAML definitions of GitHub Actions.
 - **/repository_assets** - A folder with assets for this repository and not assets for this service.
 
@@ -52,7 +52,7 @@ This section describes the deployment process of this service.
 - go
 - Docker
 - dapr
-- Firebase
+- PostgreSQL
 
 ### Used patterns
 - Repository pattern
@@ -60,7 +60,6 @@ This section describes the deployment process of this service.
 
 ### Used libraries
 - [go-chi](https://github.com/go-chi/chi "Link to chi GitHub page") - Is a lightweight, idiomatic and composable router for building Go HTTP services.
-- go-chi - docgen
 - go-chi - jwtauth
 - pgx
 - sqlx
