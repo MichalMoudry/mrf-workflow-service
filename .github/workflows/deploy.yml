@@ -25,4 +25,6 @@ jobs:
         run: |
           touch .env
           echo "$PROD_DB" > .env
-          cat .env
+
+      - name: Build and push Docker image
+        run: docker compose -f docker-compose.yml --env-file .env push
