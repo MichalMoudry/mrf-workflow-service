@@ -8,6 +8,9 @@ services:
       context: .
     ports:
       - "8080:8443"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
   
   migrate:
     image: migrate/migrate
