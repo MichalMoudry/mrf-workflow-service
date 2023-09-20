@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: workflow-service
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8080:8443"
+  
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./database/migrations:/migrations
