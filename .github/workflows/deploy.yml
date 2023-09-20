@@ -24,7 +24,7 @@ jobs:
           PROD_DB: ${{ secrets.PROD_DB_STRING }}
         run: |
           touch .env
-          echo "$PROD_DB" > .env
+          echo "PROD_DB=$PROD_DB" >> .env
 
       - name: Build and push Docker image
         run: |

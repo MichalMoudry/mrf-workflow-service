@@ -36,6 +36,7 @@ func main() {
 		cfg.Port,
 		model.NewServiceCollection(),
 	)
+
 	fmt.Printf("Listening on port: %d\n", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", handler.Port), handler.Mux)
 	if err != nil {
