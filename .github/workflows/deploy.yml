@@ -20,7 +20,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Create .env file
+        env:
+          PROD_DB: ${{ secrets.PROD_DB_STRING }}
         run: |
           touch .env
-          echo "${{ secrets.PROD_DB_STRING }}" > .env
+          echo "$PROD_DB" > .env
           cat .env
