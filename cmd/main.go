@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,8 +8,6 @@ import (
 	"workflow-service/database"
 	"workflow-service/transport"
 	"workflow-service/transport/model"
-
-	firebase "firebase.google.com/go/v4"
 )
 
 func main() {
@@ -37,21 +34,11 @@ func main() {
 	}
 	defer daprClient.Close()*/
 
-	// Firebase init
-	firebaseApp, err := firebase.NewApp(context.Background(), config.GetFirebaseConfig())
-	if err != nil {
-		log.Fatalf("error initializing Firebase app:\n%v\n", err)
-	}
-	authClient, err := firebaseApp.Auth(context.Background())
-	if err != nil {
-		log.Printf("error initializing auth client:\n%v\n", err) // TODO: Switch to Fatalf
-	}
-
 	// Start web server
 	fmt.Printf("Trying to start a server on %d port.\n", cfg.Port)
 	handler := transport.Initalize(
 		cfg.Port,
-		model.NewServiceCollection(authClient),
+		model.NewServiceCollection(),
 	)
 	fmt.Printf("Listening on port: %d\n", cfg.Port)
 	err = http.ListenAndServe(fmt.Sprintf(":%d", handler.Port), handler.Mux)
