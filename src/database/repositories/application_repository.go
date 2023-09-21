@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	"log"
 	"time"
 	"workflow-service/database"
 	"workflow-service/database/model"
@@ -82,8 +81,6 @@ func (ApplicationRepository) UpdateApplication(appId uuid.UUID, appName string) 
 		return err
 	}
 
-	log.Printf("Updating app: %v, %s\n", appId, appName)
-	log.Print(time.Now(), uuid.New())
 	if _, err = ctx.Exec(query.UpdateApp, appId, appName, time.Now(), uuid.New()); err != nil {
 		return err
 	}
