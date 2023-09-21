@@ -8,6 +8,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+    image: michalmoudry/workflow-service
     ports:
       - "8080:8443"
     depends_on:

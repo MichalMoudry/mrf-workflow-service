@@ -29,3 +29,13 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker compose -f docker-compose.yml --env-file ./.env push
+
+  deploy:
+    name: Deploy
+    runs-on:
+    needs: [push_to_registery]
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
