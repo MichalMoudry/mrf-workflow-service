@@ -11,6 +11,8 @@ var (
 	UpdateApp string
 	//go:embed scripts/commands/CreateWorkflow.sql
 	CreateWorkflow string
+	//go:embed scripts/commands/UpdateWorkflow.sql
+	UpdateWorkflow string
 	//go:embed scripts/commands/DeleteWorkflow.sql
 	DeleteWorkflow string
 	//go:embed scripts/commands/CreateTemplate.sql

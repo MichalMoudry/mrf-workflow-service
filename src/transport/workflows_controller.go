@@ -72,6 +72,37 @@ func (handler *Handler) GetWorkflowInfo(w http.ResponseWriter, r *http.Request) 
 	util.WriteResponse(w, http.StatusOK, data)
 }
 
+// Method for handling requests for updating a specific recognition workflow.
+func (handler *Handler) UpdateWorkflow(w http.ResponseWriter, r *http.Request) {
+	workflowId, err := util.GetUuidFromUrl(r)
+	if err != nil {
+		util.WriteErrResponse(w, http.StatusBadRequest, err)
+		return
+	}
+	var requestData contracts.UpdateWorkflowRequest
+	if err = util.UnmarshallRequest(r, &requestData); err != nil {
+		return
+	}
+
+	isFullPage, _ := strconv.ParseBool(requestData.IsFullPageRecognition)
+	skipImageEnhancement, _ := strconv.ParseBool(requestData.SkipImageEnhancement)
+	expectedDiffImages, _ := strconv.ParseBool(requestData.ExpectDifferentImages)
+	err = handler.Services.WorkflowService.UpdateWorkflow(
+		r.Context(),
+		workflowId, model.WorkflowSetting{
+			IsFullPageRecognition: isFullPage,
+			SkipImageEnhancement:  skipImageEnhancement,
+			ExpectDifferentImages: expectedDiffImages,
+		},
+	)
+
+	if err != nil {
+		util.WriteErrResponse(w, http.StatusInternalServerError, err)
+		return
+	}
+	util.WriteResponse(w, http.StatusOK, nil)
+}
+
 // Method for handling requests to delete a specific recognition workflow.
 func (handler *Handler) DeleteWorkflow(w http.ResponseWriter, r *http.Request) {
 	workflowId, err := util.GetUuidFromUrl(r)

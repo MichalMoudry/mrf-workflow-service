@@ -40,6 +40,7 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 			r.Get("/app/{uuid}", handler.GetWorkflowsInfo)
 			r.Route("/{uuid}", func(r chi.Router) {
 				r.Get("/", handler.GetWorkflowInfo)
+				r.Patch("/", handler.UpdateWorkflow)
 				r.Delete("/", handler.DeleteWorkflow)
 			})
 		})

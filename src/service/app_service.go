@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"time"
 	"workflow-service/database"
 	"workflow-service/database/model"
 	"workflow-service/service/model/ioc"
@@ -79,5 +78,5 @@ func (srvc ApplicationService) UpdateApp(ctx context.Context, appId uuid.UUID, a
 		return err
 	}
 
-	return srvc.AppRepository.UpdateApplication(appId, appName, time.Now())
+	return srvc.AppRepository.UpdateApplication(appId, appName)
 }

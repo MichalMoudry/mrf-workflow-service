@@ -38,6 +38,9 @@ type IWorkflowService interface {
 	// Method for obtaining a list of information about app's workflows.
 	GetWorkflowsInfo(ctx context.Context, appId uuid.UUID) ([]model.WorkflowInfo, error)
 
+	// A method for updating a specific workflow service.
+	UpdateWorkflow(ctx context.Context, workflowId uuid.UUID, settings model.WorkflowSetting) error
+
 	// Method for removing an existing service from the system.
 	DeleteWorkflow(ctx context.Context, workflowId uuid.UUID) (err error)
 }

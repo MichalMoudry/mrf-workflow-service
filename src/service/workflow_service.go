@@ -45,6 +45,11 @@ func (srvc WorkflowService) GetWorkflowsInfo(ctx context.Context, appId uuid.UUI
 	return srvc.WorkflowRepository.GetWorkflows(appId)
 }
 
+// A method for updating a specific workflow service.
+func (srvc WorkflowService) UpdateWorkflow(ctx context.Context, workflowId uuid.UUID, settings model.WorkflowSetting) error {
+	return nil
+}
+
 // Method for removing an existing service from the system.
 func (srvc WorkflowService) DeleteWorkflow(ctx context.Context, workflowId uuid.UUID) (err error) {
 	tx, err := database.BeginTransaction(ctx)
