@@ -13,6 +13,7 @@ import (
 type TemplateService struct {
 	TemplateRepository ioc.ITemplateRepository
 	FieldRepository    ioc.IFieldRepository
+	TransactionManager ioc.ITransactionManager
 }
 
 // A constructor function for TemplateService structure.
@@ -20,16 +21,17 @@ func NewTemplateService(templateRepo ioc.ITemplateRepository, fieldRepo ioc.IFie
 	return &TemplateService{
 		TemplateRepository: templateRepo,
 		FieldRepository:    fieldRepo,
+		TransactionManager: database.TransactionManager{},
 	}
 }
 
 // A method for creating a new document template in the system.
 func (srvc TemplateService) CreateTemplate(ctx context.Context, data contracts.CreateTemplateRequest) (templateId uuid.UUID, err error) {
-	tx, err := database.BeginTransaction(ctx)
+	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
 	if err != nil {
 		return
 	}
-	defer func() { err = database.EndTransaction(tx, err) }()
+	defer func() { err = srvc.TransactionManager.EndTransaction(tx, err) }()
 
 	templateId, err = srvc.TemplateRepository.AddTemplate(
 		model.NewDocumentTemplate(data.Name, data.Width, data.Height),
@@ -53,11 +55,11 @@ func (srvc TemplateService) CreateTemplate(ctx context.Context, data contracts.C
 
 // A method for deleting a specific document template in the system.
 func (srvc TemplateService) DeleteTemplate(ctx context.Context, templateId uuid.UUID) (err error) {
-	tx, err := database.BeginTransaction(ctx)
+	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
 	if err != nil {
 		return
 	}
-	defer func() { err = database.EndTransaction(tx, err) }()
+	defer func() { err = srvc.TransactionManager.EndTransaction(tx, err) }()
 
 	err = srvc.TemplateRepository.DeleteTemplate(templateId)
 	return

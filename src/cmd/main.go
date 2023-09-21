@@ -23,18 +23,20 @@ func main() {
 	}
 
 	// Dapr client init
-	/*daprClient, err := dapr.NewClient()
-	if err != nil {
-		log.Println(err)
-		daprClient.Close()
-	}
-	defer daprClient.Close()*/
+	/*
+		daprClient, err := dapr.NewClient()
+		if err != nil {
+			log.Println(err)
+			daprClient.Close()
+		}
+		defer daprClient.Close()
+	*/
 
 	// Start web server
 	fmt.Printf("Trying to start a server on %d port.\n", cfg.Port)
 	handler := transport.Initalize(
 		cfg.Port,
-		model.NewServiceCollection(),
+		model.NewServiceCollection(nil),
 	)
 
 	fmt.Printf("Listening on port: %d\n", cfg.Port)

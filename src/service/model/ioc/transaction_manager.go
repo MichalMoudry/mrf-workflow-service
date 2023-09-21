@@ -12,5 +12,5 @@ type ITransactionManager interface {
 	BeginTransaction(ctx context.Context) (*sqlx.Tx, error)
 
 	// This function ends a specific database transaction.
-	EndTransaction(transaction *sqlx.Tx, err error)
+	EndTransaction(transaction *sqlx.Tx, err error) error
 }
