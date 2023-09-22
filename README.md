@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./repository_assets/mrf_logo.svg" alt="Microservice Reference Framework logo" />
+    <img src="./assets/mrf_logo.svg" alt="Microservice Reference Framework logo" />
 </p>
 
 # Workflow service
@@ -11,11 +11,11 @@ A repository with a service for managing document recognition workflows. This re
     - **/config** - Package with service configuration code. That includes functions for reading environment variables and config files.
     - **/transport** - Package with a source code for a transport layer of this service. This packages contains things like request validation, HTTP handler and more.
     - /service
-    - /database
+    - **/database** - Folder/package containing database layer of this service. This layer can be responsible for things like handling database queries, starting and commiting transactions.
     - **/test** - Folder containing additional tests outside of unit tests that are part of the main package.
         - /api - A folder containing .http files that are used to test workflow service's API.
 - **/.github** - A folder with YAML definitions of GitHub Actions.
-- **/repository_assets** - A folder with assets for this repository and not assets for this service.
+- **/assets** - A folder with assets for this repository and not assets for this service.
 
 ### Service architecture
 This section describes architecture of this particular service and no the entire system. Workflow service uses a layered architecture to separete concerns of handling requests, business logic and persistance (database) layer.
@@ -59,10 +59,9 @@ This section describes the deployment process of this service.
 - Inversion of Control
 
 ### Used libraries
-- [go-chi](https://github.com/go-chi/chi "Link to chi GitHub page") - Is a lightweight, idiomatic and composable router for building Go HTTP services.
-- go-chi - jwtauth
-- pgx
-- sqlx
-- Testify
-- Viper
-- uuid
+- [go-chi](https://github.com/go-chi/chi "Link to chi's GitHub page") - Is a lightweight, idiomatic and composable router for building Go HTTP services.
+- [pgx](https://github.com/jackc/pgx "Link to pgx's GitHub page") - It is a driver and a toolkit for PostgreSQL.
+- [sqlx](https://github.com/jmoiron/sqlx "Link to sqlx's GitHub page") - It is a library which provides a set of extensions on go's standard database/sql library.
+- [Testify](https://github.com/stretchr/testify "Link to Testify's GitHub page") - It is a toolkit with common assertions and mocks.
+- [Viper](https://github.com/spf13/viper "Link to Viper's GitHub page") - Viper is a package for dealing with app's configuration.
+- [uuid](https://github.com/google/uuid "Link to uuid's GitHub page") - Package for generating and inspecting UUIDs.
