@@ -52,10 +52,15 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 				r.Patch("/image", handler.UpdateTemplateImage)
 			})
 		})
+
+		r.Route("/users", func(r chi.Router) {
+		})
 	})
 
 	// Public routes
 	handler.Mux.Get("/health", health)
+
+	handler.Mux.Get("/dapr/subscribe", ConfigureSubscribeHandler)
 	return handler
 }
 
