@@ -27,7 +27,7 @@ func Test_ReadConfigFromFile(t *testing.T) {
 				path: configPath,
 			},
 			want: Config{
-				Port:             8081,
+				Port:             8080,
 				ConnectionString: "postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable",
 			},
 			wantErr: false,
