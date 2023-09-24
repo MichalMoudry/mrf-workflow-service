@@ -40,6 +40,7 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 			r.Get("/app/{uuid}", handler.GetWorkflowsInfo)
 			r.Route("/{uuid}", func(r chi.Router) {
 				r.Get("/", handler.GetWorkflowInfo)
+				r.Patch("/", handler.UpdateWorkflow)
 				r.Delete("/", handler.DeleteWorkflow)
 			})
 		})
@@ -51,10 +52,16 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 				r.Patch("/image", handler.UpdateTemplateImage)
 			})
 		})
+
+		r.Route("/users", func(r chi.Router) {
+			r.Delete("/delete", handler.DeleteUsersData)
+		})
 	})
 
 	// Public routes
 	handler.Mux.Get("/health", health)
+
+	handler.Mux.Get("/dapr/subscribe", ConfigureSubscribeHandler)
 	return handler
 }
 

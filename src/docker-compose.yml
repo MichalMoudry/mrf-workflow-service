@@ -2,10 +2,13 @@ version: "3.9"
 
 services:
   app:
+    env_file:
+      - .env
     container_name: workflow-service
     build:
       dockerfile: Dockerfile
       context: .
+    image: michalmoudry/workflow-service
     ports:
       - "8080:8443"
     depends_on:
@@ -14,5 +17,9 @@ services:
   
   migrate:
     image: migrate/migrate
+    env_file:
+      - .env
     volumes:
       - ./database/migrations:/migrations
+    command:
+      [ "-path", "/migrations", "-database", "${PROD_DB}", "up"]

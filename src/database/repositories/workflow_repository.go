@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"time"
 	"workflow-service/database"
 	"workflow-service/database/model"
 	"workflow-service/database/query"
@@ -58,6 +59,29 @@ func (WorkflowRepository) GetWorkflows(appId uuid.UUID) ([]model.WorkflowInfo, e
 		return nil, err
 	}
 	return workflows, nil
+}
+
+// A method for updating a specific recognition workflow in the database.
+func (WorkflowRepository) UpdateWorkflow(id uuid.UUID, name string, settings model.WorkflowSetting) error {
+	ctx, err := database.GetDbContext()
+	if err != nil {
+		return err
+	}
+
+	_, err = ctx.Exec(
+		query.UpdateWorkflow,
+		id,
+		name,
+		settings.IsFullPageRecognition,
+		settings.SkipImageEnhancement,
+		settings.ExpectDifferentImages,
+		uuid.New(),
+		time.Now(),
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Method for deleting a workflow from the database.

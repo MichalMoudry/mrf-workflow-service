@@ -1,6 +1,6 @@
 @hostname=localhost
 @port=8080
-@appid=20d97282-ec61-46b5-aa62-ed9e664dfe4b
+@appid=4529deab-342a-4faa-a391-bdd8e56e4ab0
 
 PATCH http://{{hostname}}:{{port}}/apps/{{appid}} HTTP/1.1
 

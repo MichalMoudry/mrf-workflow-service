@@ -7,8 +7,12 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// A structure representing a manager for dealing with DB transaction.
+type TransactionManager struct {
+}
+
 // This function starts a database transaction.
-func BeginTransaction(ctx context.Context) (*sqlx.Tx, error) {
+func (TransactionManager) BeginTransaction(ctx context.Context) (*sqlx.Tx, error) {
 	dbCtx, err := GetDbContext()
 	if err != nil {
 		return nil, err
@@ -17,7 +21,7 @@ func BeginTransaction(ctx context.Context) (*sqlx.Tx, error) {
 }
 
 // This function ends a specific database transaction.
-func EndTransaction(transaction *sqlx.Tx, err error) error {
+func (TransactionManager) EndTransaction(transaction *sqlx.Tx, err error) error {
 	if err != nil {
 		if rollbackErr := transaction.Rollback(); rollbackErr != nil {
 			err = errors.Join(rollbackErr, err)
