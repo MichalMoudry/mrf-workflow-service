@@ -45,8 +45,39 @@ classDiagram
 
 ## Deployment process
 This section describes the deployment process of this service.
+```mermaid
+---
+title: "Deployment of the workflow service"
+---
+graph TB
+    start(GitHub Action trigger)
+    start -- Workflow is\nmanually triggered --> manual_deploy
+    start -- New tag\nis created --> version_deploy
+    manual_deploy{{Manual deployment}}
+    version_deploy{{New version}}
+
+    container_registery(Container\nregistery)
+    manual_deploy -- Container image is\ncreated from the\napp's source code --> container_registery
+    version_deploy -- Container image is\ncreated from the\napp's source code --> container_registery
+
+    azure(Azure Container Apps)
+    container_registery -- App's instance\nis created from\nthe image --> azure
+
+    db_migration(Database migration)
+    azure --> |Database scheme\nis migrated| db_migration
+```
+**Diagram catalog**:
+- **GitHub Action trigger** - Starting point of the deployment process is a GitHub action for deploying the workflow service. This action is triggered manually or when a new version/tag is created.
+- **Manual deployment** - An event that represents a manual deployment of the workflow service.
+- **New version** - An event representing an automatic deployment of the workflow service. This event is triggered when a new version/tag has been created.
+- **Container registry** - A registry for storing container images.
+    - Examples: Docker hub or Azure Container Registry.
+- **Azure Container Apps** - A cloud environment where this service is being hosted/deployed. This environment has Dapr as a serverless service.
+- **Database migration** - There is a mechanism for migrating database scheme to a new version. This service uses so called `init container` to migrate the database.
 
 ## Getting started
+### Running locally
+### Running service as a container
 
 ## Used technologies
 - go
