@@ -43,3 +43,7 @@ type CreateFieldRequest struct {
 	ExpectedValue string  `json:"expected_value" validate:"required,max=255"`
 	IsIdentifying bool    `json:"is_identifying" validate:"required,boolean"`
 }
+
+type DeleteUsersRequest struct {
+	UserId string `json:"user_id" validate:"required,min=3"`
+}
