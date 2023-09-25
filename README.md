@@ -5,6 +5,9 @@
 # Workflow service
 A repository with a service for managing document recognition workflows. This repository is part of [Microservice Reference Framework](https://github.com/MichalMoudry/microservice-reference-framework "Go to Microservice Reference Framework GitHub page").
 
+[![Build and test project](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/go.yml/badge.svg)](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/go.yml)
+[![Deploy to Azure](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/deploy.yml/badge.svg)](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/deploy.yml)
+
 ## Project structure
 - **/src** - A folder with all the source code for the workflow service.
     - **/cmd** - Folder with app's entry point.
@@ -43,8 +46,10 @@ classDiagram
 - Service layer
 - Persistance layer
 
-## Deployment process
-This section describes the deployment process of this service.
+## Deployment
+This section contains information about workflow service's deployment process and environment.
+### Deployment process
+This sub-section describes the deployment process of this service.
 ```mermaid
 ---
 title: "Deployment of the workflow service"
@@ -74,6 +79,9 @@ graph TB
     - Examples: Docker hub or Azure Container Registry.
 - **Azure Container Apps** - A cloud environment where this service is being hosted/deployed. This environment has Dapr as a serverless service.
 - **Database migration** - There is a mechanism for migrating database scheme to a new version. This service uses so called `init container` to migrate the database.
+
+### Deployment diagram
+
 
 ## Getting started
 ### Running locally
