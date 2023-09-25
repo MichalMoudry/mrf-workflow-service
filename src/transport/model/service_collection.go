@@ -12,7 +12,6 @@ import (
 type ServiceCollection struct {
 	AppService      ioc.IApplicationService
 	WorkflowService ioc.IWorkflowService
-	TemplateService ioc.ITemplateService
 }
 
 // A constructor function for ServiceCollection structure.

@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./assets/mrf_logo.svg" alt="Microservice Reference Framework logo" />
+    <img src="./assets/mrf_logo.svg" alt="Microservice Reference Framework logo" draggable="false" />
 </p>
 
 # Workflow service
