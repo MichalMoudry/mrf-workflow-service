@@ -45,14 +45,6 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 			})
 		})
 
-		r.Route("/templates", func(r chi.Router) {
-			r.Post("/", handler.CreateTemplate)
-			r.Route("/{uuid}", func(r chi.Router) {
-				r.Delete("/", handler.DeleteTemplate)
-				r.Patch("/image", handler.UpdateTemplateImage)
-			})
-		})
-
 		r.Route("/users", func(r chi.Router) {
 			r.Delete("/delete", handler.DeleteUsersData)
 		})
