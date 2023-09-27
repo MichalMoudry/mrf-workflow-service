@@ -8,8 +8,7 @@ jobs:
   push_to_registery:
     name: Push container registery
     runs-on: ubuntu-latest
-    environment: Docker Hub
-    if: false
+    #environment: Docker Hub
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -35,15 +34,10 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     #needs: [push_to_registery]
+    #environment: Azure
     steps:
       # https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux
       - name: Log in to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Run Azure CLI commands
-        run: |
-          az account show
-          az group list
-          pwd

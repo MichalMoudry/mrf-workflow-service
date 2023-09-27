@@ -3,7 +3,7 @@
 </p>
 
 # Workflow service
-A repository with a service for managing document recognition workflows. This repository is part of [Microservice Reference Framework](https://github.com/MichalMoudry/microservice-reference-framework "Go to Microservice Reference Framework GitHub page").
+A repository with a service for managing document recognition workflows. This repository is part of [Microservices Reference Framework](https://github.com/MichalMoudry/microservice-reference-framework "Go to Microservices Reference Framework GitHub page").
 
 [![Build and test project](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/go.yml/badge.svg)](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/go.yml)
 [![Deploy to Azure](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/deploy.yml/badge.svg)](https://github.com/MichalMoudry/mrf-workflow-service/actions/workflows/deploy.yml)
@@ -18,6 +18,7 @@ A repository with a service for managing document recognition workflows. This re
     - **/test** - Folder containing additional tests outside of unit tests that are part of the main package.
         - /api - A folder containing .http files that are used to test workflow service's API.
 - **/.github** - A folder with YAML definitions of GitHub Actions.
+- **./dapr** - It is a folder containing definitions for Dapr components for local testing/deployment.
 - **/assets** - A folder with assets for this repository and not assets for this service.
 
 ### Service architecture
@@ -42,9 +43,9 @@ classDiagram
     note for database "contains migrations\ncontains SQL queries\ncontains repositories\nhelps with DB transaction\n..."
 ```
 **Diagram catalog**:
-- Transport layer
-- Service layer
-- Persistance layer
+- **Transport layer** - Is a layer responsible to handling incoming HTTP requests. This means having functionality for unmarshalling request bodies, validating request data or validating JSON Web Tokens (JWTs).
+- **Service layer** - This layer contains all the business logic of this service. This can include constructing all the queries in a database transaction, publishing event to a message queue or realizing calculations on a set of data.
+- **Persistance layer** - This layer is only responsible for dealing with a database. This includes sending SQL queries to a database and retrieving responses, opening a connection to the database or providing functions for starting or commiting transactions.
 
 ## Deployment
 This section contains information about workflow service's deployment process and environment.
@@ -104,3 +105,4 @@ graph TB
 - [Testify](https://github.com/stretchr/testify "Link to Testify's GitHub page") - It is a toolkit with common assertions and mocks.
 - [Viper](https://github.com/spf13/viper "Link to Viper's GitHub page") - Viper is a package for dealing with app's configuration.
 - [uuid](https://github.com/google/uuid "Link to uuid's GitHub page") - Package for generating and inspecting UUIDs.
+- Firebase Admin SDK
