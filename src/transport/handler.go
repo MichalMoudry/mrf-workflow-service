@@ -54,7 +54,7 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 		})
 
 		r.Route("/users", func(r chi.Router) {
-			r.Delete("/delete", handler.DeleteUsersData)
+			r.Post("/delete", handler.DeleteUsersData)
 		})
 	})
 

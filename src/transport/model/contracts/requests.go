@@ -47,3 +47,10 @@ type CreateFieldRequest struct {
 type DeleteUsersRequest struct {
 	UserId string `json:"user_id" validate:"required,min=3"`
 }
+
+// A structure representing cloud events from MQ.
+type CloudEvent[T interface{}] struct {
+	Id     string `json:"id"`
+	Data   T      `json:"data"`
+	Source string `json:"source"`
+}
