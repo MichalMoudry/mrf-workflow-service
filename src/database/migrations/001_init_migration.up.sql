@@ -36,4 +36,29 @@ CREATE TABLE application_users (
             ON DELETE CASCADE
 );
 
+CREATE TABLE workflow_task_groups (
+    id UUID PRIMARY KEY,
+    group_name VARCHAR(255) NOT NULL,
+    workflow_id UUID NOT NULL,
+    date_added TIMESTAMP NOT NULL,
+    date_updated TIMESTAMP NOT NULL,
+    CONSTRAINT fk_workflow
+        FOREIGN KEY(workflow_id)
+            REFERENCES workflows(id)
+            ON DELETE CASCADE
+);
+
+CREATE TABLE workflow_tasks (
+    id UUID PRIMARY KEY,
+    content BYTEA NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    group_id UUID NOT NULL,
+    date_added TIMESTAMP NOT NULL,
+    date_updated TIMESTAMP NOT NULL,
+    CONSTRAINT fk_workflow_group
+        FOREIGN KEY(group_id)
+            REFERENCES workflow_task_groups(id)
+            ON DELETE CASCADE
+);
+
 COMMIT;

@@ -1,0 +1,10 @@
+@hostname=localhost
+@port=8080
+
+POST http://{{hostname}}:{{port}}/users/delete HTTP/1.1
+
+{
+    "id": "1a27a322-210e-4b87-99c2-18f9ff35fb4d",
+    "data":  "<nil>",
+    "source": "test_source"
+}

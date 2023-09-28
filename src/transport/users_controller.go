@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"log"
 	"net/http"
 	"workflow-service/transport/model/contracts"
 	"workflow-service/transport/util"
@@ -10,12 +9,15 @@ import (
 // A method for handling requests to delete all user's data.
 func (handler *Handler) DeleteUsersData(w http.ResponseWriter, r *http.Request) {
 	var eventData contracts.CloudEvent[string]
-	err := util.UnmarshallRequest(r, &eventData)
-	if err != nil {
+	if err := util.UnmarshallRequest(r, &eventData); err != nil {
 		util.WriteErrResponse(w, http.StatusBadRequest, err)
 		return
 	}
-	log.Println(eventData.Data) // eventData.Data = user id
+	err := handler.Services.UserService.DeleteUsersData(r.Context(), eventData.Data)
+	if err != nil {
+		util.WriteErrResponse(w, http.StatusInternalServerError, err)
+		return
+	}
 
 	util.WriteResponse(w, http.StatusOK, nil)
 }

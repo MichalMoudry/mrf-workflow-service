@@ -7,6 +7,8 @@ var (
 	CreateApp string
 	//go:embed scripts/commands/DeleteApp.sql
 	DeleteApp string
+	//go:embed scripts/commands/DeleteUsersApps.sql
+	DeleteUsersApps string
 	//go:embed scripts/commands/UpdateApp.sql
 	UpdateApp string
 	//go:embed scripts/commands/CreateWorkflow.sql

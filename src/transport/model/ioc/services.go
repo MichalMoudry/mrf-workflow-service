@@ -43,3 +43,9 @@ type IWorkflowService interface {
 	// Method for removing an existing service from the system.
 	DeleteWorkflow(ctx context.Context, workflowId uuid.UUID) (err error)
 }
+
+// An interface for a user service.
+type IUserService interface {
+	// Method for deleting all user's data in the system.
+	DeleteUsersData(ctx context.Context, userId string) error
+}
