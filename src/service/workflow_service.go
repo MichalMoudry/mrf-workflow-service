@@ -5,7 +5,6 @@ import (
 	"workflow-service/database"
 	"workflow-service/database/model"
 	"workflow-service/service/model/ioc"
-	"workflow-service/service/util"
 
 	dapr "github.com/dapr/go-sdk/client"
 	"github.com/google/uuid"
@@ -15,7 +14,7 @@ import (
 type WorkflowService struct {
 	WorkflowRepository ioc.IWorkflowRepository
 	TransactionManager ioc.ITransactionManager
-	Dapr               dapr.Client
+	DaprService        ioc.IDaprService
 }
 
 // A constructor function for the Workflow structure.
@@ -23,6 +22,7 @@ func NewWorkflowService(workflowRepo ioc.IWorkflowRepository, dapr dapr.Client) 
 	return WorkflowService{
 		WorkflowRepository: workflowRepo,
 		TransactionManager: database.TransactionManager{},
+		DaprService:        NewDapr(dapr),
 	}
 }
 
@@ -37,8 +37,8 @@ func (srvc WorkflowService) CreateWorkflow(ctx context.Context, name string, app
 	}()
 
 	id, err = srvc.WorkflowRepository.AddWorkflow(name, appId, settings)
-	if err == nil {
-		err = srvc.Dapr.PublishEvent(ctx, util.PUBSUB_NAME, "new-workflow", id)
+	if err != nil {
+		err = srvc.DaprService.PublishEvent(ctx, "new-workflow", id)
 		if err != nil {
 			return uuid.Nil, err
 		}
