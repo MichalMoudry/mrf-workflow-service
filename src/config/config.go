@@ -10,6 +10,7 @@ type Config struct {
 	Port             int
 	ConnectionString string
 	RunWithDapr      bool
+	Environment
 }
 
 // This function reads app's configuration from a config file.
@@ -27,5 +28,6 @@ func ReadCfgFromFile(path string) (Config, error) {
 	return Config{
 		Port:             viper.GetInt("port"),
 		ConnectionString: connectionString,
+		Environment:      Environment(viper.GetString("environment")),
 	}, nil
 }

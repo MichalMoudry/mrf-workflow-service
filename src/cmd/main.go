@@ -19,6 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("App is running in '%v' mode.\n", cfg.Environment)
 
 	if err = database.OpenDb(cfg.ConnectionString); err != nil {
 		log.Fatal(err)
