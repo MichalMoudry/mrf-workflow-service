@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"workflow-service/transport/model"
 
+	"firebase.google.com/go/v4/auth"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -15,7 +16,7 @@ type Handler struct {
 }
 
 // Initializer function for HTTP handler.
-func Initalize(port int, services model.ServiceCollection) *Handler {
+func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *Handler {
 	handler := &Handler{
 		Port:     port,
 		Mux:      chi.NewRouter(),

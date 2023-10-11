@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,11 +10,14 @@ import (
 	"workflow-service/transport"
 	"workflow-service/transport/model"
 
+	firebase "firebase.google.com/go/v4"
 	dapr "github.com/dapr/go-sdk/client"
+	"google.golang.org/api/option"
 )
 
 func main() {
 	fmt.Println("Hello from workflow service! ʕ•ᴥ•ʔ")
+
 	// Read app's config
 	cfg, err := config.ReadCfgFromFile("config.json")
 	if err != nil {
@@ -21,7 +25,26 @@ func main() {
 	}
 	log.Printf("App is running in '%v' mode.\n", cfg.Environment)
 
+	// Connect to db
 	if err = database.OpenDb(cfg.ConnectionString); err != nil {
+		log.Fatal(err)
+	}
+
+	// Firebase init
+	firebaseCredentials, err := config.CreateFirebaseCredentials()
+	if err != nil {
+		log.Fatal(err)
+	}
+	firebaseApp, err := firebase.NewApp(
+		context.Background(),
+		config.GetFirebaseConfig(),
+		option.WithCredentialsJSON(firebaseCredentials),
+	)
+	if err != nil {
+		log.Fatalf("error initializing app: %v\n", err)
+	}
+	firebaseAuth, err := firebaseApp.Auth(context.Background())
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -40,6 +63,7 @@ func main() {
 	handler := transport.Initalize(
 		cfg.Port,
 		model.NewServiceCollection(daprClient),
+		firebaseAuth,
 	)
 
 	fmt.Printf("Listening on port: %d\n", handler.Port)
