@@ -19,7 +19,7 @@ func main() {
 	fmt.Println("Hello from workflow service! ʕ•ᴥ•ʔ")
 
 	// Read app's config
-	cfg, err := config.ReadCfgFromFile("config.json")
+	cfg, err := config.ReadCfgFromFile("config.toml")
 	if err != nil {
 		log.Fatal(err)
 	}
