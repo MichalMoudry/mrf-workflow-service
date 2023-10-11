@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	configPath = "../config.json"
+	configPath = "../config.toml"
 )
 
 func Test_ReadConfigFromFile(t *testing.T) {

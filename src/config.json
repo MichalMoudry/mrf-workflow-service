@@ -1,5 +1,0 @@
-{
-    "port": 8080,
-    "connection_string": "postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable",
-    "environment": "[dev]"
-}
