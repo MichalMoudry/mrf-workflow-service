@@ -62,6 +62,29 @@ jobs:
           regex: false
           include: "**app_template.yml"
 
+      - name: Update app's template
+        env:
+          PRIVATE_KEY: ${{ secrets.FB_PRIV_KEY }}
+        run: |
+          echo "        env:" >> ./.azure/app_template.yml
+          echo "          - name: FB_TYPE" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_TYPE }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_PRIV_KEY_ID" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_PRIV_KEY_ID }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_PRIV_KEY" >> ./.azure/app_template.yml
+          echo "            value: $PRIVATE_KEY" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_CLIENT_EMAIL" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_CLIENT_EMAIL }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_CLIENT_ID" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_CLIENT_ID }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_CLIENT_CERT_URL" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_CLIENT_CERT_URL }}" >> ./.azure/app_template.yml
+
       - name: Deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:

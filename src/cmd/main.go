@@ -8,11 +8,12 @@ import (
 	"workflow-service/database"
 	"workflow-service/transport"
 	"workflow-service/transport/model"
-	//dapr "github.com/dapr/go-sdk/client"
+
+	dapr "github.com/dapr/go-sdk/client"
 )
 
 func main() {
-	fmt.Println("Hello from workflow service!")
+	fmt.Println("Hello from workflow service! ʕ•ᴥ•ʔ")
 	// Read app's config
 	cfg, err := config.ReadCfgFromFile("config.json")
 	if err != nil {
@@ -24,17 +25,20 @@ func main() {
 	}
 
 	// Dapr client init
-	/*daprClient, err := dapr.NewClient()
-	if err != nil {
-		log.Fatal(err)
+	var daprClient dapr.Client
+	if cfg.RunWithDapr {
+		daprClient, err = dapr.NewClient()
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer daprClient.Close()
 	}
-	defer daprClient.Close()*/
 
 	// Start web server
 	fmt.Printf("Trying to start a server on %d port.\n", cfg.Port)
 	handler := transport.Initalize(
 		cfg.Port,
-		model.NewServiceCollection(nil),
+		model.NewServiceCollection(daprClient),
 	)
 
 	fmt.Printf("Listening on port: %d\n", handler.Port)
