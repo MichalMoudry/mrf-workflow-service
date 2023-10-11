@@ -1,4 +1,4 @@
 {
     "port": 8080,
-    "ConnectionString": "postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable"
+    "connection_string": "postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable"
 }
