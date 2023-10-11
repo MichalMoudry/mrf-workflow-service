@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"workflow-service/transport/model"
 
+	srvc_middleware "workflow-service/transport/middleware"
+
 	"firebase.google.com/go/v4/auth"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -26,6 +28,8 @@ func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *H
 
 	//Protected routes
 	handler.Mux.Group(func(r chi.Router) {
+		r.Use(srvc_middleware.Authenticate(auth))
+
 		r.Route("/apps", func(r chi.Router) {
 			r.Post("/", handler.CreateApp)
 			r.Get("/", handler.GetUsersApps)
