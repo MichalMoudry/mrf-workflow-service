@@ -110,4 +110,4 @@ jobs:
               -g ${{ secrets.AZURE_RESOURCE_GROUP }} \
               --dapr-app-id workflowservice \
               --dapr-app-protocol http \
-              --dapr-app-port 8085
+              --dapr-app-port 8080
