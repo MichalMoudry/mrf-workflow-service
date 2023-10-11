@@ -47,6 +47,9 @@ jobs:
     needs: [push_to_registery]
     #environment: Azure
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
       # https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux
       - name: Log in to Azure
         uses: azure/login@v1
