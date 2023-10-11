@@ -13,6 +13,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.8.4
+	google.golang.org/api v0.122.0
 )
 
 require (
@@ -67,7 +68,6 @@ require (
 	golang.org/x/text v0.10.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
-	google.golang.org/api v0.122.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/appengine/v2 v2.0.2 // indirect
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
