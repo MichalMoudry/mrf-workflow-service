@@ -50,6 +50,18 @@ func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *H
 			})
 		})
 
+		r.Route("/taskgroups", func(r chi.Router) {
+			r.Post("/", handler.CreateTaskGroup)
+			r.Route("/{uuid}", func(r chi.Router) {
+				r.Delete("/", handler.DeleteTaskGroup)
+				r.Patch("/", handler.PatchTaskGroup)
+			})
+		})
+
+		r.Route("/tasks", func(r chi.Router) {
+
+		})
+
 		r.Route("/users", func(r chi.Router) {
 			r.Post("/delete", handler.DeleteUsersData)
 		})
@@ -58,6 +70,7 @@ func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *H
 	// Public routes
 	handler.Mux.Get("/health", health)
 
+	// Dapr routes
 	handler.Mux.Get("/dapr/subscribe", ConfigureSubscribeHandler)
 	return handler
 }
