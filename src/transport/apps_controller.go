@@ -3,6 +3,7 @@ package transport
 import (
 	"net/http"
 	"time"
+	"workflow-service/transport/errors"
 	"workflow-service/transport/model/contracts"
 	"workflow-service/transport/util"
 )
@@ -49,7 +50,13 @@ func (handler *Handler) GetAppInfo(w http.ResponseWriter, r *http.Request) {
 
 // Method for handling requests for obtaining a list of information about user's apps.
 func (handler *Handler) GetUsersApps(w http.ResponseWriter, r *http.Request) {
-	data, err := handler.Services.AppService.GetAppInfos(r.Context())
+	userId, ok := util.GetUserIdFromCtx(r.Context())
+	if !ok {
+		util.WriteErrResponse(w, http.StatusBadRequest, errors.ErrUidContextIssue)
+		return
+	}
+
+	data, err := handler.Services.AppService.GetAppInfos(r.Context(), userId)
 	if err != nil {
 		util.WriteErrResponse(w, http.StatusInternalServerError, err)
 		return

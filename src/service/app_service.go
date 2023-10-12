@@ -54,12 +54,7 @@ func (srvc ApplicationService) GetAppInfo(ctx context.Context, appId uuid.UUID) 
 }
 
 // Method for retrieving information about user's applications.
-func (srvc ApplicationService) GetAppInfos(ctx context.Context) ([]model.ApplicationInfo, error) {
-	userId, err := util.GetUserIdFromContext(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+func (srvc ApplicationService) GetAppInfos(ctx context.Context, userId string) ([]model.ApplicationInfo, error) {
 	return srvc.AppRepository.GetUsersApps(userId)
 }
 

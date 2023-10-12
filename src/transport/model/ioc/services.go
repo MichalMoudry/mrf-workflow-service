@@ -17,7 +17,7 @@ type IApplicationService interface {
 	GetAppInfo(ctx context.Context, appId uuid.UUID) (model.ApplicationInfo, error)
 
 	// Method for retrieving information about user's applications.
-	GetAppInfos(ctx context.Context) ([]model.ApplicationInfo, error)
+	GetAppInfos(ctx context.Context, userId string) ([]model.ApplicationInfo, error)
 
 	// A method for deleting an existing app from the system.
 	DeleteApp(ctx context.Context, appId uuid.UUID) error
