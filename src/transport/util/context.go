@@ -4,8 +4,17 @@ import "context"
 
 type UserId string
 
-// Function
+const (
+	UIDKEY UserId = "user_id"
+)
+
+// Function for adding UID to a context.
 func WithUserId(ctx context.Context, userId string) context.Context {
-	var uidKey UserId = "user_id"
-	return context.WithValue(ctx, uidKey, userId)
+	return context.WithValue(ctx, UIDKEY, userId)
+}
+
+// Function for retrieving UID from a context.
+func GetUserIdFromCtx(ctx context.Context) (string, bool) {
+	userId, ok := ctx.Value(UIDKEY).(string)
+	return userId, ok
 }
