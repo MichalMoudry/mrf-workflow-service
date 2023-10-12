@@ -4,6 +4,9 @@ import (
 	"net/http"
 	"workflow-service/transport/model"
 
+	srvc_middleware "workflow-service/transport/middleware"
+
+	"firebase.google.com/go/v4/auth"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -15,7 +18,7 @@ type Handler struct {
 }
 
 // Initializer function for HTTP handler.
-func Initalize(port int, services model.ServiceCollection) *Handler {
+func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *Handler {
 	handler := &Handler{
 		Port:     port,
 		Mux:      chi.NewRouter(),
@@ -25,6 +28,8 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 
 	//Protected routes
 	handler.Mux.Group(func(r chi.Router) {
+		r.Use(srvc_middleware.Authenticate(auth))
+
 		r.Route("/apps", func(r chi.Router) {
 			r.Post("/", handler.CreateApp)
 			r.Get("/", handler.GetUsersApps)
@@ -45,6 +50,18 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 			})
 		})
 
+		r.Route("/taskgroups", func(r chi.Router) {
+			r.Post("/", handler.CreateTaskGroup)
+			r.Route("/{uuid}", func(r chi.Router) {
+				r.Delete("/", handler.DeleteTaskGroup)
+				r.Patch("/", handler.PatchTaskGroup)
+			})
+		})
+
+		r.Route("/tasks", func(r chi.Router) {
+
+		})
+
 		r.Route("/users", func(r chi.Router) {
 			r.Post("/delete", handler.DeleteUsersData)
 		})
@@ -53,6 +70,7 @@ func Initalize(port int, services model.ServiceCollection) *Handler {
 	// Public routes
 	handler.Mux.Get("/health", health)
 
+	// Dapr routes
 	handler.Mux.Get("/dapr/subscribe", ConfigureSubscribeHandler)
 	return handler
 }

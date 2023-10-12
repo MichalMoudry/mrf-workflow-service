@@ -12,17 +12,22 @@ import (
 type ServiceCollection struct {
 	AppService      ioc.IApplicationService
 	WorkflowService ioc.IWorkflowService
+	UserService     ioc.IUserService
 }
 
 // A constructor function for ServiceCollection structure.
 func NewServiceCollection(daprClient dapr.Client) ServiceCollection {
+	appRepository := &repositories.ApplicationRepository{}
 	return ServiceCollection{
 		AppService: service.NewAppService(
-			repositories.ApplicationRepository{},
+			appRepository,
 		),
 		WorkflowService: service.NewWorkflowService(
 			repositories.WorkflowRepository{},
 			daprClient,
+		),
+		UserService: service.NewUserService(
+			appRepository,
 		),
 	}
 }

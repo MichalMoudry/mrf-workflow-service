@@ -8,7 +8,7 @@ jobs:
   push_to_registery:
     name: Push container registery
     runs-on: ubuntu-latest
-    #environment: Docker Hub
+    environment: Docker Hub
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -18,26 +18,96 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: Create .env file
-        env:
-          PROD_DB: ${{ secrets.PROD_DB_STRING }}
-        run: |
-          touch .env
-          echo "PROD_DB=$PROD_DB" >> .env
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: michalmoudry/workflow-service
+
+      - name: Edit app's config
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "[dev]"
+          replace: "[prod]"
+          regex: false
+          include: "**config.toml"
 
       - name: Build and push Docker image
-        run: |
-          docker compose -f docker-compose.yml --env-file ./.env push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./src
+          push: true
+          tags: michalmoudry/workflow-service:latest
+          labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    #needs: [push_to_registery]
+    needs: [push_to_registery]
     #environment: Azure
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
       # https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux
       - name: Log in to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Update subscription in app's config file
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "[subscription_id]"
+          replace: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          regex: false
+          include: "**app_template.yml"
+
+      - name: Update app's template env variables
+        env:
+          PRIVATE_KEY: ${{ secrets.FB_PRIV_KEY }}
+        run: |
+          echo "        env:" >> ./.azure/app_template.yml
+          echo "          - name: FB_TYPE" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_TYPE }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_PRIV_KEY_ID" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_PRIV_KEY_ID }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_PRIV_KEY" >> ./.azure/app_template.yml
+          echo "            value: $PRIVATE_KEY" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_CLIENT_EMAIL" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_CLIENT_EMAIL }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_CLIENT_ID" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_CLIENT_ID }}" >> ./.azure/app_template.yml
+
+          echo "          - name: FB_CLIENT_CERT_URL" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.FB_CLIENT_CERT_URL }}" >> ./.azure/app_template.yml
+
+          echo "          - name: PROD_DB_STRING" >> ./.azure/app_template.yml
+          echo "            value: ${{ secrets.PROD_DB_STRING }}" >> ./.azure/app_template.yml
+
+      - name: Deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          imageToDeploy: docker.io/michalmoudry/workflow-service:latest
+          resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          containerAppEnvironment: microservice-ref-framework-env
+          containerAppName: workflow-service
+          targetPort: 8080
+          ingress: external
+          yamlConfigPath: ./.azure/app_template.yml
+
+      - name: Enable dapr for a Container App
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az containerapp dapr enable \
+              -n workflow-service \
+              -g ${{ secrets.AZURE_RESOURCE_GROUP }} \
+              --dapr-app-id workflowservice \
+              --dapr-app-protocol http \
+              --dapr-app-port 8080

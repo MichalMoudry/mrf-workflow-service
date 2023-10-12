@@ -17,7 +17,7 @@ type IApplicationService interface {
 	GetAppInfo(ctx context.Context, appId uuid.UUID) (model.ApplicationInfo, error)
 
 	// Method for retrieving information about user's applications.
-	GetAppInfos(ctx context.Context) ([]model.ApplicationInfo, error)
+	GetAppInfos(ctx context.Context, userId string) ([]model.ApplicationInfo, error)
 
 	// A method for deleting an existing app from the system.
 	DeleteApp(ctx context.Context, appId uuid.UUID) error
@@ -42,4 +42,10 @@ type IWorkflowService interface {
 
 	// Method for removing an existing service from the system.
 	DeleteWorkflow(ctx context.Context, workflowId uuid.UUID) (err error)
+}
+
+// An interface for a user service.
+type IUserService interface {
+	// Method for deleting all user's data in the system.
+	DeleteUsersData(ctx context.Context, userId string) error
 }

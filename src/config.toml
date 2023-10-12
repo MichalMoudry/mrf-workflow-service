@@ -1,0 +1,4 @@
+port = 8080
+run_with_dapr = true
+environment = "[dev]"
+connection_string = "postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable"

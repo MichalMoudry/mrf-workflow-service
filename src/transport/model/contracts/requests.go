@@ -44,6 +44,7 @@ type CreateFieldRequest struct {
 	IsIdentifying bool    `json:"is_identifying" validate:"required,boolean"`
 }
 
+// A structure representing data for a request for deleting users.
 type DeleteUsersRequest struct {
 	UserId string `json:"user_id" validate:"required,min=3"`
 }
@@ -53,4 +54,27 @@ type CloudEvent[T interface{}] struct {
 	Id     string `json:"id"`
 	Data   T      `json:"data"`
 	Source string `json:"source"`
+}
+
+// A structure representing data of a HTTP request for creating a new task group.
+type CreateTaskGroupRequest struct {
+	Name       string `json:"group_name" validate:"required,min=3,max=255"`
+	WorkflowId string `json:"workflow_id" validate:"uuid,required"`
+}
+
+// A structure representing data of a HTTP request for obtaining a list of task groups for a specific workflow.
+type GetTaskGroupsRequest struct {
+	WorkflowId string `json:"workflow_id" validate:"uuid,required"`
+}
+
+// A structure representing data of a HTTP request for patch an existing task group.
+type PatchTaskGroupRequest struct {
+	Name string `json:"new_name" validate:"required,min=3,max=255"`
+}
+
+// A structure representing data of a HTTP request for creating a new task.
+type CreateTaskRequest struct {
+	Content     string `json:"task_content" validate:"required,min=3,max=600"`
+	Description string `json:"description" validate:"required,min=3,max=255"`
+	GroupId     string `json:"group_id" validate:"required,uuid"`
 }

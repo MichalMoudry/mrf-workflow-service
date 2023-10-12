@@ -86,6 +86,14 @@ graph TB
 
 ## Getting started
 ### Running locally
+To run this service locally you need to have the following:
+- Required Dapr components running (pubsub component)
+- Have Go installed (1.20+ version)
+- Have an instance of a PostgreSQL database running
+    - Modify config.json, if it is running on a non-default port
+- Have installed the [migrate tool](https://github.com/golang-migrate/migrate "Link to migrate's GitHub page") for running database migrations.
+    - It is kind of optional, if you create the database scheme by hand.
+
 ### Running service as a container
 
 ## Used technologies

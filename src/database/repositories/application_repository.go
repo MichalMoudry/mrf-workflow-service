@@ -86,3 +86,16 @@ func (ApplicationRepository) UpdateApplication(appId uuid.UUID, appName string) 
 	}
 	return nil
 }
+
+// Method for deleting all user's recognition applications.
+func (ApplicationRepository) DeleteUsersApps(userId string) error {
+	ctx, err := database.GetDbContext()
+	if err != nil {
+		return err
+	}
+
+	if _, err = ctx.Exec(query.DeleteUsersApps, userId); err != nil {
+		return err
+	}
+	return nil
+}

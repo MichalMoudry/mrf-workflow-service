@@ -7,7 +7,9 @@ services:
       dockerfile: Dockerfile
       context: .
     ports:
-      - "8080:8443"
+      - "8080:8080"
+    depends_on:
+      - migrate
     environment:
       - CONNECTION_STRING="postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable"
 
@@ -21,7 +23,7 @@ services:
       - POSTGRES_DB=workflow-serv-db
       - PGUSER=root
     ports:
-      - "5432"
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
