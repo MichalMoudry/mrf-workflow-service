@@ -51,7 +51,6 @@ func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *H
 		})
 
 		r.Route("/taskgroups", func(r chi.Router) {
-			r.Post("/", handler.CreateTaskGroup)
 			r.Route("/{uuid}", func(r chi.Router) {
 				r.Delete("/", handler.DeleteTaskGroup)
 				r.Patch("/", handler.PatchTaskGroup)

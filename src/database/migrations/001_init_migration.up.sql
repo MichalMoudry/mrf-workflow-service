@@ -1,6 +1,8 @@
 BEGIN;
 
-CREATE TABLE applications (
+CREATE SCHEMA workflows_db;
+
+CREATE TABLE workflows_db.applications (
     id UUID PRIMARY KEY,
     app_name VARCHAR(200) NOT NULL,
     creator_id VARCHAR(150) NOT NULL,
@@ -9,7 +11,7 @@ CREATE TABLE applications (
     date_updated TIMESTAMP NOT NULL
 );
 
-CREATE TABLE workflows (
+CREATE TABLE workflows_db.workflows (
     id UUID PRIMARY KEY,
     workflow_name VARCHAR(200) NOT NULL,
     application_id UUID NOT NULL,
@@ -21,22 +23,22 @@ CREATE TABLE workflows (
     date_updated TIMESTAMP NOT NULL,
     CONSTRAINT fk_application
         FOREIGN KEY(application_id)
-            REFERENCES applications(id)
+            REFERENCES workflows_db.applications(id)
             ON DELETE CASCADE
 );
 
-CREATE TABLE application_users (
+CREATE TABLE workflows_db.application_users (
     id UUID PRIMARY KEY,
     application_id UUID NOT NULL,
     user_id VARCHAR(150) NOT NULL,
     user_role VARCHAR(50) NOT NULL,
     CONSTRAINT fk_application
         FOREIGN KEY(application_id)
-            REFERENCES applications(id)
+            REFERENCES workflows_db.applications(id)
             ON DELETE CASCADE
 );
 
-CREATE TABLE workflow_task_groups (
+CREATE TABLE workflows_db.workflow_task_groups (
     id UUID PRIMARY KEY,
     group_name VARCHAR(255) NOT NULL,
     workflow_id UUID NOT NULL,
@@ -44,11 +46,11 @@ CREATE TABLE workflow_task_groups (
     date_updated TIMESTAMP NOT NULL,
     CONSTRAINT fk_workflow
         FOREIGN KEY(workflow_id)
-            REFERENCES workflows(id)
+            REFERENCES workflows_db.workflows(id)
             ON DELETE CASCADE
 );
 
-CREATE TABLE workflow_tasks (
+CREATE TABLE workflows_db.workflow_tasks (
     id UUID PRIMARY KEY,
     content BYTEA NOT NULL,
     description VARCHAR(255) NOT NULL,
@@ -57,7 +59,7 @@ CREATE TABLE workflow_tasks (
     date_updated TIMESTAMP NOT NULL,
     CONSTRAINT fk_workflow_group
         FOREIGN KEY(group_id)
-            REFERENCES workflow_task_groups(id)
+            REFERENCES workflows_db.workflow_task_groups(id)
             ON DELETE CASCADE
 );
 

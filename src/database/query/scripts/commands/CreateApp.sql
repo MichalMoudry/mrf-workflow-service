@@ -1,4 +1,4 @@
-INSERT INTO applications (
+INSERT INTO workflows_db.applications (
     id,
     app_name,
     creator_id,

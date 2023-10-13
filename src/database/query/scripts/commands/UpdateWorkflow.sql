@@ -1,5 +1,5 @@
 UPDATE
-    workflows
+    workflows_db.workflows
 SET
     workflow_name = $2,
     setting_is_full_page_recog = $3,

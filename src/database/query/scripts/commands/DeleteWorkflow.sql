@@ -1,4 +1,4 @@
 DELETE FROM
-    workflows
+    workflows_db.workflows
 WHERE
     id = $1

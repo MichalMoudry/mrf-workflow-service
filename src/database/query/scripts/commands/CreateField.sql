@@ -1,4 +1,4 @@
-INSERT INTO template_fields (
+INSERT INTO workflows_db.template_fields (
     id,
     field_name,
     width,
