@@ -1,7 +1,5 @@
 BEGIN;
 
-CREATE SCHEMA workflows_db;
-
 CREATE TABLE workflows_db.applications (
     id UUID PRIMARY KEY,
     app_name VARCHAR(200) NOT NULL,
