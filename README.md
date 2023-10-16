@@ -63,7 +63,7 @@ graph TB
     version_deploy{{New version}}
 
     pre_deployment((Start\npre-deployment\nscenarios))
-    pre_deployment_end((End\npre-deployment\nscenarios))
+    pre_deployment_finish((End\npre-deployment\nscenarios))
     
     manual_deploy -- Container image is\ncreated from the\napp's source code --> pre_deployment
     version_deploy -- Container image is\ncreated from the\napp's source code --> pre_deployment
@@ -73,11 +73,11 @@ graph TB
     pre_deployment --> container_registery
     pre_deployment --> db_migration
 
-    db_migration -- Database scheme\nis migrated --> pre_deployment_end
-    container_registery -- App's instance\nis created from\nthe image --> pre_deployment_end
+    db_migration -- Database scheme\nis migrated --> pre_deployment_finish
+    container_registery -- App's instance\nis created from\nthe image --> pre_deployment_finish
 
     azure(Azure Container Apps)
-    pre_deployment_end -- Deploy a revision\nof the app --> azure
+    pre_deployment_finish -- Deploy a revision\nof the app --> azure
 ```
 **Diagram catalog**:
 - **GitHub Action trigger** - Starting point of the deployment process is a GitHub action for deploying the workflow service. This action is triggered manually or when a new version/tag is created.
