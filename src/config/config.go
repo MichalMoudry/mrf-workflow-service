@@ -20,7 +20,7 @@ func ReadCfgFromFile(path string) (Config, error) {
 		return Config{}, err
 	}
 
-	connectionString := os.Getenv("CONNECTION_STRING")
+	connectionString := os.Getenv("DB_CONN")
 	if connectionString == "" {
 		connectionString = viper.GetString("connection_string")
 	}
