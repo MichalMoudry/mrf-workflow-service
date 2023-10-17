@@ -51,6 +51,7 @@ func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *H
 		})
 
 		r.Route("/taskgroups", func(r chi.Router) {
+			r.Get("/", handler.GetTaskGroups)
 			r.Route("/{uuid}", func(r chi.Router) {
 				r.Delete("/", handler.DeleteTaskGroup)
 				r.Patch("/", handler.PatchTaskGroup)
@@ -58,7 +59,7 @@ func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *H
 		})
 
 		r.Route("/tasks", func(r chi.Router) {
-
+			r.Get("/{uuid}", handler.GetTasks)
 		})
 
 		r.Route("/users", func(r chi.Router) {

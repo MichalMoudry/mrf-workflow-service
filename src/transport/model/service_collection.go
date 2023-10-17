@@ -13,6 +13,7 @@ type ServiceCollection struct {
 	AppService      ioc.IApplicationService
 	WorkflowService ioc.IWorkflowService
 	UserService     ioc.IUserService
+	TasksService    ioc.ITasksService
 }
 
 // A constructor function for ServiceCollection structure.
@@ -28,6 +29,9 @@ func NewServiceCollection(daprClient dapr.Client) ServiceCollection {
 		),
 		UserService: service.NewUserService(
 			appRepository,
+		),
+		TasksService: service.NewTasksService(
+			repositories.TasksRepository{},
 		),
 	}
 }

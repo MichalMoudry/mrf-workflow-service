@@ -3,6 +3,7 @@ package ioc
 import (
 	"context"
 	"workflow-service/database/model"
+	service_model "workflow-service/service/model"
 
 	"github.com/google/uuid"
 )
@@ -48,4 +49,13 @@ type IWorkflowService interface {
 type IUserService interface {
 	// Method for deleting all user's data in the system.
 	DeleteUsersData(ctx context.Context, userId string) error
+}
+
+// An interface for a tasks service.
+type ITasksService interface {
+	// A method for obtaining a list of task groups connected to a specific workflow.
+	GetTaskGroups(ctx context.Context, workflowId uuid.UUID) ([]service_model.TaskGroupData, error)
+
+	// A method for obtaining a list of tasks for a specific task group.
+	GetTasks(ctx context.Context, groupId uuid.UUID) ([]service_model.TaskData, error)
 }

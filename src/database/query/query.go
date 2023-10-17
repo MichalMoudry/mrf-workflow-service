@@ -28,4 +28,8 @@ var (
 	GetWorkflow string
 	//go:embed scripts/queries/GetWorkflows.sql
 	GetWorkflows string
+	//go:embed scripts/queries/GetTaskGroups.sql
+	GetTaskGroups string
+	//go:embed scripts/queries/GetTasks.sql
+	GetTasks string
 )

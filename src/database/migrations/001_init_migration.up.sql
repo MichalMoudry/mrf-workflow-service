@@ -50,6 +50,7 @@ CREATE TABLE workflows_db.workflow_task_groups (
 
 CREATE TABLE workflows_db.workflow_tasks (
     id UUID PRIMARY KEY,
+    task_name VARCHAR(255) NOT NULL,
     content BYTEA NOT NULL,
     description VARCHAR(255) NOT NULL,
     group_id UUID NOT NULL,

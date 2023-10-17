@@ -67,3 +67,46 @@ func NewWorkflow(name string, appId uuid.UUID, settings WorkflowSetting) *Workfl
 		DateUpdated:           now,
 	}
 }
+
+// A structure representing a group of custom tasks.
+type TaskGroup struct {
+	Id          uuid.UUID
+	Name        string
+	Tasks       []Task
+	DateAdded   time.Time
+	DateUpdated time.Time
+}
+
+// A constructor function for the TaskGroup structure.
+func NewTaskGroup(name string) *TaskGroup {
+	now := time.Now()
+	return &TaskGroup{
+		Id:          uuid.New(),
+		Name:        name,
+		DateAdded:   now,
+		DateUpdated: now,
+	}
+}
+
+// A structure representing a custom processing task.
+type Task struct {
+	Id          uuid.UUID
+	Name        string
+	Content     []byte
+	Description string
+	DateAdded   time.Time
+	DateUpdated time.Time
+}
+
+// A constructor function for the Task structure.
+func NewTask(name, description string, content []byte) *Task {
+	now := time.Now()
+	return &Task{
+		Id:          uuid.New(),
+		Name:        name,
+		Description: description,
+		Content:     content,
+		DateAdded:   now,
+		DateUpdated: now,
+	}
+}

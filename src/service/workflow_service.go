@@ -69,5 +69,8 @@ func (srvc WorkflowService) DeleteWorkflow(ctx context.Context, workflowId uuid.
 	}
 	defer func() { err = srvc.TransactionManager.EndTransaction(tx, err) }()
 	err = srvc.WorkflowRepository.DeleteWorkflow(workflowId)
+	if err != nil {
+		err = srvc.DaprService.PublishEvent(ctx, "delete-workflow", workflowId)
+	}
 	return
 }

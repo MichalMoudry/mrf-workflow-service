@@ -41,3 +41,12 @@ type IWorkflowRepository interface {
 	// Method for deleting a workflow from the database.
 	DeleteWorkflow(workflowId uuid.UUID) error
 }
+
+// An interface for a repository connected to processing tasks.
+type ITasksRepository interface {
+	// A method for obtaining a list of task groups.
+	GetTaskGroups(workflowId uuid.UUID) ([]model.TaskGroup, error)
+
+	// A method for obtaining a list of tasks.
+	GetTasks(groupId uuid.UUID) ([]model.Task, error)
+}
