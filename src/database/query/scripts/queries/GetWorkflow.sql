@@ -8,6 +8,6 @@ SELECT
     w.date_added,
     w.date_updated
 FROM
-    workflows as w
+    workflows_db.workflows as w
 WHERE
     w.id = $1

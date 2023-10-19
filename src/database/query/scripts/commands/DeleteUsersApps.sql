@@ -1,4 +1,4 @@
 DELETE FROM
-    applications
+    workflows_db.applications
 WHERE
     creator_id = $1

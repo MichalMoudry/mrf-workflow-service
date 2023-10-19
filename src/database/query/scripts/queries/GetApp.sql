@@ -6,6 +6,6 @@ SELECT
     a.date_added,
     a.date_updated
 FROM
-    applications as a
+    workflows_db.applications as a
 WHERE
     a.id = $1

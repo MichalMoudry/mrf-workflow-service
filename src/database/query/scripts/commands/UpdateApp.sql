@@ -1,5 +1,5 @@
 UPDATE
-    applications
+    workflows_db.applications
 SET
     app_name = $2,
     date_updated = $3,
