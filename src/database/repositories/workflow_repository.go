@@ -87,12 +87,7 @@ func (WorkflowRepository) UpdateWorkflow(id uuid.UUID, name string, settings mod
 
 // Method for deleting a workflow from the database.
 func (WorkflowRepository) DeleteWorkflow(tx *sqlx.Tx, workflowId uuid.UUID) error {
-	ctx, err := database.GetDbContext()
-	if err != nil {
-		return err
-	}
-
-	if _, err = ctx.Exec(query.DeleteWorkflow, workflowId); err != nil {
+	if _, err := tx.Exec(query.DeleteWorkflow, workflowId); err != nil {
 		return err
 	}
 	return nil

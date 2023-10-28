@@ -27,6 +27,6 @@ func (srvc UserService) DeleteUsersData(ctx context.Context, userId string) (err
 	}
 	defer func() { err = srvc.TransactionManager.EndTransaction(tx, err) }()
 
-	err = srvc.AppRepository.DeleteUsersApps(userId)
+	err = srvc.AppRepository.DeleteUsersApps(tx, userId)
 	return
 }

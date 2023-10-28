@@ -22,7 +22,7 @@ type IApplicationRepository interface {
 	DeleteApplication(appId uuid.UUID) error
 
 	// Method for deleting all user's recognition applications.
-	DeleteUsersApps(userId string) error
+	DeleteUsersApps(tx *sqlx.Tx, userId string) error
 
 	// Method for updating app's name.
 	UpdateApplication(appId uuid.UUID, app_name string) error
