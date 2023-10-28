@@ -12,7 +12,7 @@ import (
 type IApplicationService interface {
 	// A method for creating a new recognition app in the system.
 	// This method returns app's id or error.
-	CreateApp(ctx context.Context, name string) (uuid.UUID, error)
+	CreateApp(ctx context.Context, userId string, name string) (uuid.UUID, error)
 
 	// Method for retrieving information about a specific recognition app.
 	GetAppInfo(ctx context.Context, appId uuid.UUID) (model.ApplicationInfo, error)
