@@ -57,7 +57,22 @@ func (srvc WorkflowService) GetWorkflowsInfo(ctx context.Context, appId uuid.UUI
 }
 
 // A method for updating a specific workflow service.
-func (srvc WorkflowService) UpdateWorkflow(ctx context.Context, workflowId uuid.UUID, settings model.WorkflowSetting) error {
+func (srvc WorkflowService) UpdateWorkflow(ctx context.Context, name string, workflowId uuid.UUID, settings model.WorkflowSetting) error {
+	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
+	if err != nil {
+		return err
+	}
+	defer func() { err = srvc.TransactionManager.EndTransaction(tx, err) }()
+
+	err = srvc.WorkflowRepository.UpdateWorkflow(workflowId, name, settings)
+	if err != nil {
+		return err
+	}
+
+	err = srvc.DaprService.PublishEvent(ctx, "workflow_update", settings)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -68,9 +83,9 @@ func (srvc WorkflowService) DeleteWorkflow(ctx context.Context, workflowId uuid.
 		return err
 	}
 	defer func() { err = srvc.TransactionManager.EndTransaction(tx, err) }()
-	err = srvc.WorkflowRepository.DeleteWorkflow(workflowId)
-	if err != nil {
-		err = srvc.DaprService.PublishEvent(ctx, "delete-workflow", workflowId)
+	err = srvc.WorkflowRepository.DeleteWorkflow(tx, workflowId)
+	if err == nil {
+		err = srvc.DaprService.PublishEvent(ctx, "workflow_delete", workflowId)
 	}
 	return
 }

@@ -39,7 +39,7 @@ type IWorkflowService interface {
 	GetWorkflowsInfo(ctx context.Context, appId uuid.UUID) ([]model.WorkflowInfo, error)
 
 	// A method for updating a specific workflow service.
-	UpdateWorkflow(ctx context.Context, workflowId uuid.UUID, settings model.WorkflowSetting) error
+	UpdateWorkflow(ctx context.Context, name string, workflowId uuid.UUID, settings model.WorkflowSetting) error
 
 	// Method for removing an existing service from the system.
 	DeleteWorkflow(ctx context.Context, workflowId uuid.UUID) (err error)

@@ -7,6 +7,7 @@ import (
 	"workflow-service/database/query"
 
 	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
 )
 
 type WorkflowRepository struct{}
@@ -85,7 +86,7 @@ func (WorkflowRepository) UpdateWorkflow(id uuid.UUID, name string, settings mod
 }
 
 // Method for deleting a workflow from the database.
-func (WorkflowRepository) DeleteWorkflow(workflowId uuid.UUID) error {
+func (WorkflowRepository) DeleteWorkflow(tx *sqlx.Tx, workflowId uuid.UUID) error {
 	ctx, err := database.GetDbContext()
 	if err != nil {
 		return err

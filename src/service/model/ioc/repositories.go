@@ -4,6 +4,7 @@ import (
 	"workflow-service/database/model"
 
 	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
 )
 
 // An interface for a repository connected to Application structure.
@@ -38,8 +39,11 @@ type IWorkflowRepository interface {
 	// A method for retrieving a list of workflows for a specific recognition app.
 	GetWorkflows(appId uuid.UUID) ([]model.WorkflowInfo, error)
 
+	// A method for updating a specific recognition workflow in the database.
+	UpdateWorkflow(id uuid.UUID, name string, settings model.WorkflowSetting) error
+
 	// Method for deleting a workflow from the database.
-	DeleteWorkflow(workflowId uuid.UUID) error
+	DeleteWorkflow(tx *sqlx.Tx, workflowId uuid.UUID) error
 }
 
 // An interface for a repository connected to processing tasks.

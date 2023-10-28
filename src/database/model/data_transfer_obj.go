@@ -30,7 +30,7 @@ type WorkflowInfo struct {
 
 // A structure representing a setting of a specific recognition workflow.
 type WorkflowSetting struct {
-	IsFullPageRecognition bool
-	SkipImageEnhancement  bool
-	ExpectDifferentImages bool
+	IsFullPageRecognition bool `json:"is_full_page_recognition"`
+	SkipImageEnhancement  bool `json:"skip_img_enchancement"`
+	ExpectDifferentImages bool `json:"expecte_diff_images"`
 }
