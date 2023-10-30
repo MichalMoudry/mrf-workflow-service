@@ -31,7 +31,7 @@ type IApplicationRepository interface {
 // An interface for a repository connected to Workflow structure.
 type IWorkflowRepository interface {
 	// A method for adding a new workflow to the database.
-	AddWorkflow(name string, appId uuid.UUID, settings model.WorkflowSetting) (uuid.UUID, error)
+	AddWorkflow(tx *sqlx.Tx, name string, appId uuid.UUID, settings model.WorkflowSetting) (uuid.UUID, error)
 
 	// Method for retrieving info about a workflow from the database.
 	GetWorkflow(workflowId uuid.UUID) (model.WorkflowInfo, error)
@@ -40,7 +40,7 @@ type IWorkflowRepository interface {
 	GetWorkflows(appId uuid.UUID) ([]model.WorkflowInfo, error)
 
 	// A method for updating a specific recognition workflow in the database.
-	UpdateWorkflow(id uuid.UUID, name string, settings model.WorkflowSetting) error
+	UpdateWorkflow(tx *sqlx.Tx, id uuid.UUID, name string, settings model.WorkflowSetting) error
 
 	// Method for deleting a workflow from the database.
 	DeleteWorkflow(tx *sqlx.Tx, workflowId uuid.UUID) error

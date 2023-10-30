@@ -9,9 +9,14 @@ import (
 )
 
 // Middleware for authenticating users.
-func Authenticate(authClient *auth.Client) func(http.Handler) http.Handler {
+func Authenticate(authClient *auth.Client, skipValidation bool) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if skipValidation {
+				next.ServeHTTP(w, r)
+				return
+			}
+
 			tokenString := parseBearerToken(r.Header)
 			if tokenString == "" {
 				w.WriteHeader(http.StatusUnauthorized)

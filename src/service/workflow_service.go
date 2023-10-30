@@ -36,7 +36,7 @@ func (srvc WorkflowService) CreateWorkflow(ctx context.Context, name string, app
 		err = srvc.TransactionManager.EndTransaction(tx, err)
 	}()
 
-	id, err = srvc.WorkflowRepository.AddWorkflow(name, appId, settings)
+	id, err = srvc.WorkflowRepository.AddWorkflow(tx, name, appId, settings)
 	if err != nil {
 		err = srvc.DaprService.PublishEvent(ctx, "new-workflow", id)
 		if err != nil {
@@ -64,7 +64,7 @@ func (srvc WorkflowService) UpdateWorkflow(ctx context.Context, name string, wor
 	}
 	defer func() { err = srvc.TransactionManager.EndTransaction(tx, err) }()
 
-	err = srvc.WorkflowRepository.UpdateWorkflow(workflowId, name, settings)
+	err = srvc.WorkflowRepository.UpdateWorkflow(tx, workflowId, name, settings)
 	if err != nil {
 		return err
 	}

@@ -11,6 +11,7 @@ import (
 	"workflow-service/transport/model"
 
 	firebase "firebase.google.com/go/v4"
+	"firebase.google.com/go/v4/auth"
 	dapr "github.com/dapr/go-sdk/client"
 	"google.golang.org/api/option"
 )
@@ -31,21 +32,24 @@ func main() {
 	}
 
 	// Firebase init
-	firebaseCredentials, err := config.CreateFirebaseCredentials()
-	if err != nil {
-		log.Fatal(err)
-	}
-	firebaseApp, err := firebase.NewApp(
-		context.Background(),
-		config.GetFirebaseConfig(),
-		option.WithCredentialsJSON(firebaseCredentials),
-	)
-	if err != nil {
-		log.Fatalf("error initializing app: %v\n", err)
-	}
-	firebaseAuth, err := firebaseApp.Auth(context.Background())
-	if err != nil {
-		log.Fatal(err)
+	var firebaseAuth *auth.Client
+	if cfg.RunWithFirebase {
+		firebaseCredentials, err := config.CreateFirebaseCredentials()
+		if err != nil {
+			log.Fatal(err)
+		}
+		firebaseApp, err := firebase.NewApp(
+			context.Background(),
+			config.GetFirebaseConfig(),
+			option.WithCredentialsJSON(firebaseCredentials),
+		)
+		if err != nil {
+			log.Fatalf("error initializing app: %v\n", err)
+		}
+		firebaseAuth, err = firebaseApp.Auth(context.Background())
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	// Dapr client init

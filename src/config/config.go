@@ -10,6 +10,7 @@ type Config struct {
 	Port             int
 	ConnectionString string
 	RunWithDapr      bool
+	RunWithFirebase  bool
 	Environment
 }
 
@@ -28,6 +29,8 @@ func ReadCfgFromFile(path string) (Config, error) {
 	return Config{
 		Port:             viper.GetInt("port"),
 		ConnectionString: connectionString,
+		RunWithDapr:      viper.GetBool("run_with_dapr"),
+		RunWithFirebase:  viper.GetBool("run_with_firebase"),
 		Environment:      Environment(viper.GetString("environment")),
 	}, nil
 }
