@@ -46,7 +46,7 @@ jobs:
     name: Migrate database schema
     runs-on: ubuntu-latest
     env:
-      DB_SERVER_NAME: ${{ secrects.DB_SERVER_NAME }}
+      DB_SERVER_NAME: ${{ secrets.DB_SERVER_NAME }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
