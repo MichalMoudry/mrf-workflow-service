@@ -47,6 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_SERVER_NAME: ${{ secrets.DB_SERVER_NAME }}
+      DB_ADMIN_NAME: ${{ secrets.DB_ADMIN_NAME }}
+      DB_ADMIN_PASSWORD: ${{ secrets.DB_ADMIN_PASSWORD }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -54,9 +56,9 @@ jobs:
       - name: Pull go-migrate
         run: |
           docker pull migrate/migrate
-          docker run -v ./src/database/migrations:/migrations --network host migrate/migrate \
-          -path=/migrations/ -database postgres://$DB_SERVER_NAME:5432/mrf?search_path=workflows_db --version
-          echo "postgres://$DB_SERVER_NAME:5432/mrf?search_path=workflows_db"
+          docker run -v ./src/database/migrations:/migrations --network host migrate/migrate -path=/migrations/ \
+          -database postgres://$DB_ADMIN_NAME:$DB_ADMIN_PASSWORD@$DB_SERVER_NAME:5432/mrf?search_path=workflows_db --version
+          echo "postgres://$DB_ADMIN_NAME:$DB_ADMIN_PASSWORD@$DB_SERVER_NAME:5432/mrf?search_path=workflows_db"
 
   deploy:
     name: Deploy
