@@ -45,6 +45,8 @@ jobs:
   migrate_db:
     name: Migrate database schema
     runs-on: ubuntu-latest
+    env:
+      DB_SERVER_NAME: ${{ secrects.DB_SERVER_NAME }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -52,7 +54,8 @@ jobs:
       - name: Pull go-migrate
         run: |
           docker pull migrate/migrate
-          docker run --network host migrate/migrate --version
+          docker run -v ./src/database/migrations:/migrations --network host migrate/migrate \
+          -path=/migrations/ -database postgres://$DB_SERVER_NAME:5432/mrf?search_path=workflows_db --version
 
   deploy:
     name: Deploy
