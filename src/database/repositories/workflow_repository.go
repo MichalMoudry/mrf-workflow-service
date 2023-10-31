@@ -7,18 +7,14 @@ import (
 	"workflow-service/database/query"
 
 	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
 )
 
 type WorkflowRepository struct{}
 
 // A method for adding a new workflow to the database.
-func (WorkflowRepository) AddWorkflow(name string, appId uuid.UUID, settings model.WorkflowSetting) (uuid.UUID, error) {
-	ctx, err := database.GetDbContext()
-	if err != nil {
-		return uuid.Nil, err
-	}
-
-	rows, err := ctx.NamedQuery(query.CreateWorkflow, model.NewWorkflow(name, appId, settings))
+func (WorkflowRepository) AddWorkflow(tx *sqlx.Tx, name string, appId uuid.UUID, settings model.WorkflowSetting) (uuid.UUID, error) {
+	rows, err := tx.NamedQuery(query.CreateWorkflow, model.NewWorkflow(name, appId, settings))
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -62,13 +58,8 @@ func (WorkflowRepository) GetWorkflows(appId uuid.UUID) ([]model.WorkflowInfo, e
 }
 
 // A method for updating a specific recognition workflow in the database.
-func (WorkflowRepository) UpdateWorkflow(id uuid.UUID, name string, settings model.WorkflowSetting) error {
-	ctx, err := database.GetDbContext()
-	if err != nil {
-		return err
-	}
-
-	_, err = ctx.Exec(
+func (WorkflowRepository) UpdateWorkflow(tx *sqlx.Tx, id uuid.UUID, name string, settings model.WorkflowSetting) error {
+	_, err := tx.Exec(
 		query.UpdateWorkflow,
 		id,
 		name,
@@ -85,13 +76,8 @@ func (WorkflowRepository) UpdateWorkflow(id uuid.UUID, name string, settings mod
 }
 
 // Method for deleting a workflow from the database.
-func (WorkflowRepository) DeleteWorkflow(workflowId uuid.UUID) error {
-	ctx, err := database.GetDbContext()
-	if err != nil {
-		return err
-	}
-
-	if _, err = ctx.Exec(query.DeleteWorkflow, workflowId); err != nil {
+func (WorkflowRepository) DeleteWorkflow(tx *sqlx.Tx, workflowId uuid.UUID) error {
+	if _, err := tx.Exec(query.DeleteWorkflow, workflowId); err != nil {
 		return err
 	}
 	return nil

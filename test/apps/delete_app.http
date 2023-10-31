@@ -1,5 +1,5 @@
 @hostname=localhost
 @port=8080
-@appid=20d97282-ec61-46b5-aa62-ed9e664dfe4b
+@appid=f5f03127-040f-4bbf-9083-b257dfaef684
 
 DELETE http://{{hostname}}:{{port}}/apps/{{appid}} HTTP/1.1

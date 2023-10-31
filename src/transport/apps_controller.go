@@ -16,8 +16,10 @@ func (handler *Handler) CreateApp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	userId, _ := util.GetUserIdFromCtx(r.Context())
 	id, err := handler.Services.AppService.CreateApp(
 		r.Context(),
+		userId,
 		requestData.Name,
 	)
 	if err != nil {

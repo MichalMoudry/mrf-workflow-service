@@ -28,7 +28,7 @@ func Initalize(port int, services model.ServiceCollection, auth *auth.Client) *H
 
 	//Protected routes
 	handler.Mux.Group(func(r chi.Router) {
-		r.Use(srvc_middleware.Authenticate(auth))
+		r.Use(srvc_middleware.Authenticate(auth, auth == nil))
 
 		r.Route("/apps", func(r chi.Router) {
 			r.Post("/", handler.CreateApp)

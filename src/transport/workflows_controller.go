@@ -89,7 +89,9 @@ func (handler *Handler) UpdateWorkflow(w http.ResponseWriter, r *http.Request) {
 	expectedDiffImages, _ := strconv.ParseBool(requestData.ExpectDifferentImages)
 	err = handler.Services.WorkflowService.UpdateWorkflow(
 		r.Context(),
-		workflowId, model.WorkflowSetting{
+		requestData.Name,
+		workflowId,
+		model.WorkflowSetting{
 			IsFullPageRecognition: isFullPage,
 			SkipImageEnhancement:  skipImageEnhancement,
 			ExpectDifferentImages: expectedDiffImages,

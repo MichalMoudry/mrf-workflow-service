@@ -28,8 +28,10 @@ func Test_ReadConfigFromFile(t *testing.T) {
 			},
 			want: Config{
 				Port:             8080,
-				ConnectionString: "postgres://root:root@localhost:5432/workflow-serv-db?sslmode=disable",
+				ConnectionString: "postgres://root:root@localhost:5432/serv-db?sslmode=disable",
 				Environment:      "[dev]",
+				RunWithDapr:      true,
+				RunWithFirebase:  true,
 			},
 			wantErr: false,
 		},

@@ -7,6 +7,7 @@ import (
 	"workflow-service/database/query"
 
 	"github.com/google/uuid"
+	"github.com/jmoiron/sqlx"
 )
 
 type ApplicationRepository struct{}
@@ -88,7 +89,7 @@ func (ApplicationRepository) UpdateApplication(appId uuid.UUID, appName string) 
 }
 
 // Method for deleting all user's recognition applications.
-func (ApplicationRepository) DeleteUsersApps(userId string) error {
+func (ApplicationRepository) DeleteUsersApps(tx *sqlx.Tx, userId string) error {
 	ctx, err := database.GetDbContext()
 	if err != nil {
 		return err

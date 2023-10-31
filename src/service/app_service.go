@@ -5,7 +5,6 @@ import (
 	"workflow-service/database"
 	"workflow-service/database/model"
 	"workflow-service/service/model/ioc"
-	"workflow-service/service/util"
 
 	"github.com/google/uuid"
 )
@@ -25,13 +24,8 @@ func NewAppService(appRepo ioc.IApplicationRepository) *ApplicationService {
 }
 
 // A method for creating a new recognition app in the system.
-// This method returns app's id or error.
-func (srvc ApplicationService) CreateApp(ctx context.Context, name string) (uuid.UUID, error) {
-	userId, err := util.GetUserIdFromContext(ctx)
-	if err != nil {
-		return uuid.Nil, err
-	}
-
+// This method returns app's id or an error.
+func (srvc ApplicationService) CreateApp(ctx context.Context, userId string, name string) (uuid.UUID, error) {
 	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
 	if err != nil {
 		return uuid.Nil, err
@@ -45,11 +39,6 @@ func (srvc ApplicationService) CreateApp(ctx context.Context, name string) (uuid
 
 // Method for retrieving information about a specific recognition app.
 func (srvc ApplicationService) GetAppInfo(ctx context.Context, appId uuid.UUID) (model.ApplicationInfo, error) {
-	_, err := util.GetUserIdFromContext(ctx)
-	if err != nil {
-		return model.ApplicationInfo{}, err
-	}
-
 	return srvc.AppRepository.GetApp(appId)
 }
 
@@ -60,10 +49,6 @@ func (srvc ApplicationService) GetAppInfos(ctx context.Context, userId string) (
 
 // A method for deleting an existing app from the system.
 func (srvc ApplicationService) DeleteApp(ctx context.Context, appId uuid.UUID) (err error) {
-	_, err = util.GetUserIdFromContext(ctx)
-	if err != nil {
-		return err
-	}
 	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
 	if err != nil {
 		return err
@@ -78,10 +63,6 @@ func (srvc ApplicationService) DeleteApp(ctx context.Context, appId uuid.UUID) (
 
 // A method for updating a specific recognition app.
 func (srvc ApplicationService) UpdateApp(ctx context.Context, appId uuid.UUID, appName string) (err error) {
-	_, err = util.GetUserIdFromContext(ctx)
-	if err != nil {
-		return err
-	}
 	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
 	if err != nil {
 		return err
