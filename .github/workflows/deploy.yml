@@ -105,7 +105,7 @@ jobs:
           echo "            value: ${{ secrets.FB_CLIENT_CERT_URL }}" >> ./.azure/app_template.yml
 
           echo "          - name: PROD_DB_STRING" >> ./.azure/app_template.yml
-          echo "            value: ${{ secrets.PROD_DB_STRING }}" >> ./.azure/app_template.yml
+          echo "            secretRef: db-conn-a725d" >> ./.azure/app_template.yml
 
       - name: Deploy Container App
         uses: azure/container-apps-deploy-action@v1
