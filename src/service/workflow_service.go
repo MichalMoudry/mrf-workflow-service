@@ -38,11 +38,9 @@ func (srvc WorkflowService) CreateWorkflow(ctx context.Context, name string, app
 
 	id, err = srvc.WorkflowRepository.AddWorkflow(tx, name, appId, settings)
 	if err != nil {
-		err = srvc.DaprService.PublishEvent(ctx, "new-workflow", id)
-		if err != nil {
-			return uuid.Nil, err
-		}
+		return uuid.Nil, err
 	}
+	err = srvc.DaprService.PublishEvent(ctx, "new-workflow", id)
 	return
 }
 
