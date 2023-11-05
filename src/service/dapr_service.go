@@ -13,7 +13,7 @@ type DaprService struct {
 }
 
 const (
-	PUBSUB_NAME string = "mrf_pub_sub"
+	PUBSUB_NAME string = "mrf-pub-sub"
 )
 
 // A constructor function for DaprService structure.
