@@ -3,7 +3,7 @@ package transport
 import (
 	"net/http"
 	"strconv"
-	"workflow-service/database/model"
+	db_model "workflow-service/database/model"
 	"workflow-service/transport/model/contracts"
 	"workflow-service/transport/util"
 )
@@ -15,19 +15,11 @@ func (handler *Handler) CreateWorkflow(w http.ResponseWriter, r *http.Request) {
 		util.WriteErrResponse(w, http.StatusBadRequest, err)
 		return
 	}
-
-	isFullPage, _ := strconv.ParseBool(requestData.IsFullPageRecognition)
-	skipImageEnhancement, _ := strconv.ParseBool(requestData.SkipImageEnhancement)
-	expectedDiffImages, _ := strconv.ParseBool(requestData.ExpectDifferentImages)
 	workflowId, err := handler.Services.WorkflowService.CreateWorkflow(
 		r.Context(),
 		requestData.Name,
 		util.ParseStringAsUuid(requestData.AppId),
-		model.WorkflowSetting{
-			IsFullPageRecognition: isFullPage,
-			SkipImageEnhancement:  skipImageEnhancement,
-			ExpectDifferentImages: expectedDiffImages,
-		},
+		requestData,
 	)
 	if err != nil {
 		util.WriteErrResponse(w, http.StatusInternalServerError, err)
@@ -91,7 +83,7 @@ func (handler *Handler) UpdateWorkflow(w http.ResponseWriter, r *http.Request) {
 		r.Context(),
 		requestData.Name,
 		workflowId,
-		model.WorkflowSetting{
+		db_model.WorkflowSetting{
 			IsFullPageRecognition: isFullPage,
 			SkipImageEnhancement:  skipImageEnhancement,
 			ExpectDifferentImages: expectedDiffImages,

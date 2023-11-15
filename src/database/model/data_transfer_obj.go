@@ -32,5 +32,5 @@ type WorkflowInfo struct {
 type WorkflowSetting struct {
 	IsFullPageRecognition bool `json:"is_full_page_recognition"`
 	SkipImageEnhancement  bool `json:"skip_img_enchancement"`
-	ExpectDifferentImages bool `json:"expecte_diff_images"`
+	ExpectDifferentImages bool `json:"expect_diff_images"`
 }
