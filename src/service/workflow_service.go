@@ -2,9 +2,12 @@ package service
 
 import (
 	"context"
+	"strconv"
 	"workflow-service/database"
-	"workflow-service/database/model"
+	db_model "workflow-service/database/model"
+	"workflow-service/service/model"
 	"workflow-service/service/model/ioc"
+	"workflow-service/transport/model/contracts"
 
 	dapr "github.com/dapr/go-sdk/client"
 	"github.com/google/uuid"
@@ -27,7 +30,7 @@ func NewWorkflowService(workflowRepo ioc.IWorkflowRepository, dapr dapr.Client) 
 }
 
 // A method for creating a new workflow in the system.
-func (srvc WorkflowService) CreateWorkflow(ctx context.Context, name string, appId uuid.UUID, settings model.WorkflowSetting) (id uuid.UUID, err error) {
+func (srvc WorkflowService) CreateWorkflow(ctx context.Context, name string, appId uuid.UUID, requestData contracts.CreateWorkflowRequest) (id uuid.UUID, err error) {
 	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
 	if err != nil {
 		return uuid.Nil, err
@@ -36,26 +39,32 @@ func (srvc WorkflowService) CreateWorkflow(ctx context.Context, name string, app
 		err = srvc.TransactionManager.EndTransaction(tx, err)
 	}()
 
-	id, err = srvc.WorkflowRepository.AddWorkflow(tx, name, appId, settings)
+	workflowData := dataFromWorkflowRequest(&requestData)
+	id, err = srvc.WorkflowRepository.AddWorkflow(tx, name, appId, db_model.WorkflowSetting{
+		IsFullPageRecognition: workflowData.IsFullPageRecognition,
+		SkipImageEnhancement:  workflowData.SkipImageEnhancement,
+		ExpectDifferentImages: workflowData.ExpectDifferentImages,
+	})
 	if err != nil {
 		return uuid.Nil, err
 	}
-	err = srvc.DaprService.PublishEvent(ctx, "new-workflow", id)
+	workflowData.Id = id
+	err = srvc.DaprService.PublishEvent(ctx, "new-workflow", workflowData)
 	return
 }
 
 // Method for obtaining information about a specific workflow in the system.
-func (srvc WorkflowService) GetWorkflowInfo(ctx context.Context, workflowId uuid.UUID) (model.WorkflowInfo, error) {
+func (srvc WorkflowService) GetWorkflowInfo(ctx context.Context, workflowId uuid.UUID) (db_model.WorkflowInfo, error) {
 	return srvc.WorkflowRepository.GetWorkflow(workflowId)
 }
 
 // Method for obtaining a list of information about app's workflows.
-func (srvc WorkflowService) GetWorkflowsInfo(ctx context.Context, appId uuid.UUID) ([]model.WorkflowInfo, error) {
+func (srvc WorkflowService) GetWorkflowsInfo(ctx context.Context, appId uuid.UUID) ([]db_model.WorkflowInfo, error) {
 	return srvc.WorkflowRepository.GetWorkflows(appId)
 }
 
 // A method for updating a specific workflow service.
-func (srvc WorkflowService) UpdateWorkflow(ctx context.Context, name string, workflowId uuid.UUID, settings model.WorkflowSetting) error {
+func (srvc WorkflowService) UpdateWorkflow(ctx context.Context, name string, workflowId uuid.UUID, settings db_model.WorkflowSetting) error {
 	tx, err := srvc.TransactionManager.BeginTransaction(ctx)
 	if err != nil {
 		return err
@@ -67,7 +76,13 @@ func (srvc WorkflowService) UpdateWorkflow(ctx context.Context, name string, wor
 		return err
 	}
 
-	err = srvc.DaprService.PublishEvent(ctx, "workflow_update", settings)
+	workflowData := model.WorkflowData{
+		Id:                    workflowId,
+		IsFullPageRecognition: settings.IsFullPageRecognition,
+		SkipImageEnhancement:  settings.SkipImageEnhancement,
+		ExpectDifferentImages: settings.ExpectDifferentImages,
+	}
+	err = srvc.DaprService.PublishEvent(ctx, "workflow_update", workflowData)
 	if err != nil {
 		return err
 	}
@@ -86,4 +101,16 @@ func (srvc WorkflowService) DeleteWorkflow(ctx context.Context, workflowId uuid.
 		err = srvc.DaprService.PublishEvent(ctx, "workflow_delete", workflowId)
 	}
 	return
+}
+
+func dataFromWorkflowRequest(request *contracts.CreateWorkflowRequest) *model.WorkflowData {
+	isFullPage, _ := strconv.ParseBool(request.IsFullPageRecognition)
+	expectDiffImages, _ := strconv.ParseBool(request.ExpectDifferentImages)
+	skipEnhancement, _ := strconv.ParseBool(request.SkipImageEnhancement)
+	return &model.WorkflowData{
+		Id:                    uuid.New(),
+		IsFullPageRecognition: isFullPage,
+		ExpectDifferentImages: expectDiffImages,
+		SkipImageEnhancement:  skipEnhancement,
+	}
 }
